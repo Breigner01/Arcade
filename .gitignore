@@ -1,0 +1,13 @@
+# Editor Files and Folders
+
+.idea/
+.vscode/
+*~
+\#*#
+
+# Build Files and Binaries
+
+*.o
+arcade
+*.so
+cmake-build-debug/
