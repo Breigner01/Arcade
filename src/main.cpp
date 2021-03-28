@@ -1,14 +1,21 @@
-/*
-** EPITECH PROJECT, 2021
-** nanotekspice
-** File description:
-** main
-*/
-
-
+#include "Core.hpp"
+#include "Exception.hpp"
 #include <iostream>
 
-int main(void)
+int main(int ac, char **av)
 {
-    std::cerr << "\033[01;32m" << "oui" << "\033[00m" << std::endl;
+    try {
+        Arcade::Core app(ac, av);
+    } catch(const Arcade::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return 84;
+    } catch(const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return 84;
+    }
+    return EXIT_SUCCESS;
 }
+
+// encapsuler proprement DyLib
+// fix memory leaks sdl -> shared ptr
+// fix sf switch lib
