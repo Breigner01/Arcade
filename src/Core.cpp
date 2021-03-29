@@ -1,5 +1,8 @@
 #include "Core.hpp"
 
+#include <unistd.h>
+
+
 Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av)
 {
     m_display.loadLib(m_GraphLibs[m_GraphLibsIterator]);
@@ -20,6 +23,7 @@ Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av)
                 m_display.get()->draw(tile);
             m_display.get()->refresh();
         }
+        usleep(2000 * 60); // 60 == framerate
     }
 }
 

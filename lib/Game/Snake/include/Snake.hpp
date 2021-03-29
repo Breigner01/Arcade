@@ -10,6 +10,7 @@ namespace Arcade
         int m_score;
         unsigned int m_x;
         unsigned int m_y;
+        unsigned char direction = 8;
     public:
         Snake();
         ~Snake() override = default;
