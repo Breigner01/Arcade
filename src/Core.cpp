@@ -1,6 +1,6 @@
 #include "Core.hpp"
 
-Arcade::Core::Core(int ac, char **av) : Arcade::Parsing::Parsing(ac, av)
+Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av)
 {
     m_display.loadLib(m_GraphLibs[m_GraphLibsIterator]);
     m_game.loadLib(m_GameLibs[m_GameLibsIterator]);
@@ -44,7 +44,7 @@ void Arcade::Core::prevGame()
     m_GameLibsIterator--;
     if (m_GameLibsIterator < 0)
         m_GameLibsIterator = static_cast<int>(m_GraphLibs.size()) - 1;
-    m_display.loadLib(m_GameLibs[m_GameLibsIterator]);
+    m_game.loadLib(m_GameLibs[m_GameLibsIterator]);
 }
 
 void Arcade::Core::nextGame()
@@ -52,5 +52,5 @@ void Arcade::Core::nextGame()
     m_GameLibsIterator++;
     if (m_GameLibsIterator >= static_cast<int>(m_GameLibs.size()))
         m_GameLibsIterator = 0;
-    m_display.loadLib(m_GameLibs[m_GameLibsIterator]);
+    m_game.loadLib(m_GameLibs[m_GameLibsIterator]);
 }

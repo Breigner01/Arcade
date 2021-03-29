@@ -18,4 +18,3 @@ int main(int ac, char **av)
 
 // encapsuler proprement DyLib
 // fix memory leaks sdl -> shared ptr
-// fix sf switch lib

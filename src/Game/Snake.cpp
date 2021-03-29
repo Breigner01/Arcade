@@ -28,15 +28,15 @@ std::vector<Arcade::Tile> Arcade::Snake::loop(Arcade::Input ev)
     else if (ev == Input::RIGHT)
         m_x++;
     for (int i = 0; i < 20; i++)
-        buffer.emplace_back("blue.bmp", 'X', BLUE, i, 0);
+        buffer.emplace_back("assets/blue.bmp", 'X', BLUE, i, 0);
     for (int i = 0; i < 20; i++)
-        buffer.emplace_back("blue.bmp", 'X', BLUE, i, 4);
+        buffer.emplace_back("assets/blue.bmp", 'X', BLUE, i, 4);
     for (int i = 0; i < 5; i++)
-        buffer.emplace_back("blue.bmp", 'X', BLUE, 0, i);
+        buffer.emplace_back("assets/blue.bmp", 'X', BLUE, 0, i);
     for (int i = 0; i < 5; i++)
-        buffer.emplace_back("blue.bmp", 'X', BLUE, 19, i);
-    buffer.emplace_back("green.bmp", 'H', GREEN, 7, 2);
-    buffer.emplace_back("green.bmp", 'H', GREEN, 14, 2);
-    buffer.emplace_back("red.bmp", 'O', RED, m_x, m_y);
+        buffer.emplace_back("assets/blue.bmp", 'X', BLUE, 19, i);
+    buffer.emplace_back("assets/green.bmp", 'H', GREEN, 7, 2);
+    buffer.emplace_back("assets/green.bmp", 'H', GREEN, 14, 2);
+    buffer.emplace_back("assets/red.bmp", 'O', RED, m_x, m_y);
     return buffer;
 }

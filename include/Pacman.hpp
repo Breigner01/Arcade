@@ -8,11 +8,12 @@ namespace Arcade
     {
     private:
         int m_score;
+        unsigned int m_x;
+        unsigned int m_y;
     public:
         Pacman();
         ~Pacman() override = default;
         int getScore() override {return m_score;};
-        bool isGameOver() override {return false;};
         void reset() override;
         std::vector<Arcade::Tile> loop(Arcade::Input ev) override;
     };

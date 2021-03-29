@@ -14,7 +14,6 @@ namespace Arcade
         Snake();
         ~Snake() override = default;
         int getScore() override {return m_score;};
-        bool isGameOver() override {return false;};
         void reset() override;
         std::vector<Arcade::Tile> loop(Arcade::Input ev) override;
     };

@@ -6,10 +6,8 @@
 ##
 
 SRC		+=	src/main.cpp
-SRC		+=	src/Utils.cpp
 SRC		+=	src/Parsing.cpp
 SRC		+=	src/Core.cpp
-SRC		+=	src/DyLib.cpp
 
 OBJ 	= 	$(SRC:.cpp=.o)
 

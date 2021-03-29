@@ -19,7 +19,7 @@ namespace Arcade
         std::pair<unsigned int, unsigned int> m_pos;
     public:
         Tile(std::string path_to_bmp, unsigned char symbol, Arcade::Color color = WHITE, unsigned int x = 0, unsigned int y = 0)
-                : m_path(std::move(path_to_bmp)), m_symbol(symbol), m_color(color) {m_pos = std::make_pair(x, y);};
+                : m_path(std::move(path_to_bmp)), m_symbol(symbol), m_color(color), m_pos(std::make_pair(x, y)) {};
         ~Tile() = default;
         // GETTERS
         std::string getPath() const {return m_path;};
