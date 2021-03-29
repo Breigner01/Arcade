@@ -1,4 +1,4 @@
-#include "../../include/NCURSES.hpp"
+#include "NCURSES.hpp"
 #include <ncurses.h>
 #include <map>
 

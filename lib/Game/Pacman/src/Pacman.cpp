@@ -1,4 +1,4 @@
-#include "../../include/Pacman.hpp"
+#include "Pacman.hpp"
 
 extern "C" Arcade::Pacman *Arcade::entry_point()
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Input.hpp"
-#include "Tile.hpp"
+#include "../../../include/Input.hpp"
+#include "../../../include/Tile.hpp"
 
 namespace Arcade
 {

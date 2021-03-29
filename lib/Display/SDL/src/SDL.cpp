@@ -1,5 +1,5 @@
-#include "../../include/SDL.hpp"
-#include "../../include/Exception.hpp"
+#include "SDL.hpp"
+#include "Exception.hpp"
 #include <memory>
 
 extern "C" Arcade::SDL *Arcade::entry_point()

@@ -1,5 +1,5 @@
-#include "../../include/SFML.hpp"
-#include "../../include/Exception.hpp"
+#include "SFML.hpp"
+#include "Exception.hpp"
 #include <memory>
 
 extern "C" Arcade::SFML *Arcade::entry_point()

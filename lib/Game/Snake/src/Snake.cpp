@@ -1,4 +1,4 @@
-#include "../../include/Snake.hpp"
+#include "Snake.hpp"
 
 extern "C" Arcade::Snake *Arcade::entry_point()
 {
