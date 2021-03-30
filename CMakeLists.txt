@@ -3,6 +3,13 @@ project(arcade)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
+        lib/arcade_ncurses.so
+        lib/arcade_sdl2.so
+        lib/arcade_sfml.so
+        lib/arcade_nibbler.so
+        lib/arcade_pacman.so)
+
 add_executable(arcade
         src/main.cpp
         src/Core.cpp

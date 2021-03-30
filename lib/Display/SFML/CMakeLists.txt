@@ -9,7 +9,17 @@ add_library(sfml SHARED
 
 set_target_properties(sfml PROPERTIES PREFIX "arcade_")
 
+target_link_libraries(ncurses
+        PUBLIC sfml-audio
+        PUBLIC sfml-graphics
+        PUBLIC sfml-network
+        PUBLIC sfml-system
+        PUBLIC sfml-window)
+
 target_include_directories(sfml PRIVATE
         include
         ../include
         ../../../include)
+
+add_custom_command(TARGET sfml POST_BUILD
+        COMMAND cp arcade_sfml.so ../..)

@@ -9,7 +9,12 @@ add_library(ncurses SHARED
 
 set_target_properties(ncurses PROPERTIES PREFIX "arcade_")
 
+target_link_libraries(ncurses PUBLIC curses)
+
 target_include_directories(ncurses PRIVATE
         include
         ../include
         ../../../include)
+
+add_custom_command(TARGET ncurses POST_BUILD
+        COMMAND cp arcade_ncurses.so ../..)
