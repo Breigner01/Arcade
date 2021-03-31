@@ -59,6 +59,18 @@ Arcade::Input Arcade::NCURSES::event()
         return SPACE;
     else if (c == 27)
         return ESCAPE;
+    else if (c == 114)
+        return RESET;
+    else if (c == 109)
+        return MENU;
+    else if (c == 110)
+        return N;
+    else if (c == 112)
+        return P;
+    else if (c == 105)
+        return I;
+    else if (c == 111)
+        return O;
     return NIL;
 }
 
@@ -72,18 +84,21 @@ void Arcade::NCURSES::clear()
     wclear(stdscr);
 }
 
-void Arcade::NCURSES::draw(Arcade::Tile tile)
+void Arcade::NCURSES::draw(std::shared_ptr<Arcade::IObject> object)
 {
-    char tmp[2];
-    tmp[0] = static_cast<char>(tile.getSymbol());
-    tmp[1] = '\0';
+    if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr) {
+        auto tile = dynamic_cast<Arcade::Tile*>(object.get());
+        char tmp[2];
+        tmp[0] = static_cast<char>(tile->getSymbol());
+        tmp[1] = '\0';
 
-    if (has_colors() == FALSE) {
-        mvprintw(tile.getPosition().second, tile.getPosition().first, tmp);
-        return;
+        if (has_colors() == FALSE) {
+            mvprintw(tile->getPosition().second, tile->getPosition().first, tmp);
+            return;
+        }
+
+        attron(COLOR_PAIR(colormap[tile->getColor()]));
+        mvprintw(tile->getPosition().second, tile->getPosition().first, tmp);
+        attroff(COLOR_PAIR(tile->getColor()));
     }
-
-    attron(COLOR_PAIR(colormap[tile.getColor()]));
-    mvprintw(tile.getPosition().second, tile.getPosition().first, tmp);
-    attroff(COLOR_PAIR(tile.getColor()));
 }

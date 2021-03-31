@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IDisplay.hpp"
+#include "../../include/IDisplay.hpp"
 #include <iostream>
 
 namespace Arcade
@@ -13,7 +13,7 @@ namespace Arcade
         Arcade::Input event();
         void clear();
         void refresh();
-        void draw(Arcade::Tile tile);
+        void draw(std::shared_ptr<Arcade::IObject> object);
         void playSound(Arcade::Sound sound) {(void)(sound);};
     };
     extern "C" NCURSES *entry_point();

@@ -48,9 +48,9 @@ Arcade::Parsing::Parsing(int ac, char **av) : m_GameLibsIterator(0), m_GraphLibs
                 m_GameLibs.emplace_back(gameLib);
         }
     }
-    if (std::find(m_GraphLibs.begin(), m_GraphLibs.end(), av[1]) == std::end(m_GraphLibs) or !DyLib<IDisplay>::checkLib(av[1]))
+    if (std::find(m_GraphLibs.begin(), m_GraphLibs.end(), av[1]) == std::end(m_GraphLibs))
         throw Arcade::exception("Cannot load the dynamic library : " + std::string(av[1]));
-    if (m_GameLibs.empty() or !DyLib<IGame>::checkLib(m_GameLibs[0]))
+    if (m_GameLibs.empty())
         throw Arcade::exception("No Game Libs found or no Game Libs could be loaded... Exiting");
 
     std::cout << "\nGAMES LIBRARIES :\n";

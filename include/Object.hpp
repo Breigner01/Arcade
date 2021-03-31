@@ -5,9 +5,17 @@
 
 namespace Arcade
 {
+    constexpr int tileSize = 50;
+
     enum Color {WHITE, BLACK, RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN};
 
-    class Tile
+    class IObject
+    {
+    public:
+        virtual ~IObject() = default;
+    };
+
+    class Tile : public IObject
     {
     private:
         // For SFML and SDL
@@ -33,7 +41,7 @@ namespace Arcade
         void setPosition(unsigned int x, unsigned int y) {m_pos.first = x; m_pos.second = y;};
     };
 
-    class Sound
+    class Sound : public IObject
     {
     private:
         std::string m_path;
@@ -42,5 +50,19 @@ namespace Arcade
         ~Sound() = default;
         std::string getSound() const {return m_path;};
         void setSound(std::string path) {m_path = std::move(path);};
+    };
+
+    class Text : public IObject
+    {
+    private:
+        std::string m_text;
+        std::pair<unsigned int, unsigned int> m_pos;
+    public:
+        Text(std::string text, unsigned int x = 0, unsigned int y = 0) : m_text(std::move(text)), m_pos(std::make_pair(x, y)) {};
+        ~Text() = default;
+        void setText(std::string text) {m_text = std::move(text);};
+        void setPosition(unsigned int x, unsigned int y) {m_pos.first = x; m_pos.second = y;};
+        std::string getText() const {return m_text;};
+        std::pair<unsigned int, unsigned int> getPosition() const {return m_pos;};
     };
 }

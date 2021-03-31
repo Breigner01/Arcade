@@ -1,7 +1,5 @@
 #include "Core.hpp"
-
 #include <unistd.h>
-
 
 Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av)
 {
@@ -12,10 +10,16 @@ Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av)
         auto input = m_display.get()->event();
         if (input == ESCAPE)
             break;
-        else if (input == ENTER)
+        else if (input == P)
+            prevDisplay();
+        else if (input == N)
             nextDisplay();
-        else if (input == SPACE)
+        else if (input == I)
+            prevGame();
+        else if (input == O)
             nextGame();
+        else if (input == RESET)
+            m_game.get()->reset();
         else {
             auto buffer = m_game.get()->loop(input);
             m_display.get()->clear();
@@ -47,7 +51,7 @@ void Arcade::Core::prevGame()
 {
     m_GameLibsIterator--;
     if (m_GameLibsIterator < 0)
-        m_GameLibsIterator = static_cast<int>(m_GraphLibs.size()) - 1;
+        m_GameLibsIterator = static_cast<int>(m_GameLibs.size()) - 1;
     m_game.loadLib(m_GameLibs[m_GameLibsIterator]);
 }
 

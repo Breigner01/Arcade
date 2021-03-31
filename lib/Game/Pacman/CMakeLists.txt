@@ -15,4 +15,4 @@ target_include_directories(pacman PRIVATE
         ../../../include)
 
 add_custom_command(TARGET pacman POST_BUILD
-        COMMAND cp arcade_pacman.so ../..)
+        COMMAND cp arcade_pacman.so ../../../../lib)

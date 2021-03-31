@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IDisplay.hpp"
+#include "../../include/IDisplay.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -29,7 +29,7 @@ namespace Arcade
         Arcade::Input event();
         void clear();
         void refresh();
-        void draw(Arcade::Tile tile);
+        void draw(std::shared_ptr<Arcade::IObject> object);
         void playSound(Arcade::Sound sound) {(void)sound;};
     };
     extern "C" SDL *entry_point();

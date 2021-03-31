@@ -57,6 +57,18 @@ Arcade::Input Arcade::SDL::event()
                         return SPACE;
                     case SDLK_ESCAPE:
                         return ESCAPE;
+                    case SDLK_r:
+                        return RESET;
+                    case SDLK_m:
+                        return MENU;
+                    case SDLK_n:
+                        return N;
+                    case SDLK_p:
+                        return P;
+                    case SDLK_i:
+                        return I;
+                    case SDLK_o:
+                        return O;
                 }
         }
     }
@@ -73,11 +85,14 @@ void Arcade::SDL::clear()
     SDL_RenderClear(m_renderer);
 }
 
-void Arcade::SDL::draw(Arcade::Tile tile)
+void Arcade::SDL::draw(std::shared_ptr<Arcade::IObject> object)
 {
-    std::shared_ptr<SDLTextureObj> tmpTexture = std::make_shared<SDLTextureObj>(tile.getPath(), m_renderer);
-    tmpTexture->setPosition(tile.getPosition().first, tile.getPosition().second);
-    SDL_RenderCopy(m_renderer, tmpTexture->m_img, NULL, tmpTexture->m_rect);
+    if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr) {
+        auto tile = dynamic_cast<Arcade::Tile *>(object.get());
+        std::shared_ptr<SDLTextureObj> tmpTexture = std::make_shared<SDLTextureObj>(tile->getPath(), m_renderer);
+        tmpTexture->setPosition(tile->getPosition().first, tile->getPosition().second);
+        SDL_RenderCopy(m_renderer, tmpTexture->m_img, NULL, tmpTexture->m_rect);
+    }
 }
 
 Arcade::SDLTextureObj::SDLTextureObj(const std::string &path, SDL_Renderer *renderer)
@@ -93,8 +108,8 @@ Arcade::SDLTextureObj::SDLTextureObj(const std::string &path, SDL_Renderer *rend
 
 void Arcade::SDLTextureObj::setPosition(unsigned int x, unsigned int y)
 {
-    m_rect->x = x * 10;
-    m_rect->y = y * 10;
+    m_rect->x = x * Arcade::tileSize;
+    m_rect->y = y * Arcade::tileSize;
 }
 
 Arcade::SDLTextureObj::~SDLTextureObj()

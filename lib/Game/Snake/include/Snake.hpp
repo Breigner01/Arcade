@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IGame.hpp"
+#include "../../include/IGame.hpp"
 
 namespace Arcade
 {
@@ -16,7 +16,7 @@ namespace Arcade
         ~Snake() override = default;
         int getScore() override {return m_score;};
         void reset() override;
-        std::vector<Arcade::Tile> loop(Arcade::Input ev) override;
+        std::vector<std::shared_ptr<IObject> > loop(Arcade::Input ev) override;
     };
     extern "C" Snake *entry_point();
 }

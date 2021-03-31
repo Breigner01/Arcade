@@ -15,4 +15,4 @@ target_include_directories(nibbler PRIVATE
         ../../../include)
 
 add_custom_command(TARGET nibbler POST_BUILD
-        COMMAND cp arcade_nibbler.so ../..)
+        COMMAND cp arcade_nibbler.so ../../../../lib)

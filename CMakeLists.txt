@@ -3,12 +3,17 @@ project(arcade)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_VERBOSE_MAKEFILE on)
+
+add_compile_options(-Wall -Wextra -Weffc++)
+
 set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
-        lib/arcade_ncurses.so
-        lib/arcade_sdl2.so
-        lib/arcade_sfml.so
-        lib/arcade_nibbler.so
-        lib/arcade_pacman.so)
+        ../arcade
+        ../lib/arcade_ncurses.so
+        ../lib/arcade_sdl2.so
+        ../lib/arcade_sfml.so
+        ../lib/arcade_nibbler.so
+        ../lib/arcade_pacman.so)
 
 add_executable(arcade
         src/main.cpp
@@ -17,7 +22,7 @@ add_executable(arcade
 
 target_link_libraries(arcade PUBLIC dl)
 
-target_include_directories(arcade PRIVATE
+target_include_directories(arcade PUBLIC
         include
         lib/Display/include
         lib/Game/include)
@@ -29,17 +34,7 @@ add_subdirectory(lib/Display/SFML)
 add_subdirectory(lib/Game/Pacman)
 add_subdirectory(lib/Game/Snake)
 
-add_dependencies(arcade ncurses)
-add_dependencies(arcade sdl2)
-add_dependencies(arcade sfml)
+add_dependencies(arcade ncurses sdl2 sfml pacman nibbler)
 
-add_dependencies(arcade pacman)
-add_dependencies(arcade nibbler)
-
-install(TARGETS ncurses sdl2 sfml pacman nibbler
-        CONFIGURATIONS Release
-        LIBRARY DESTINATION lib)
-
-install(TARGETS arcade
-        CONFIGURATIONS Release
-        RUNTIME DESTINATION .)
+add_custom_command(TARGET arcade POST_BUILD
+        COMMAND cp arcade ..)

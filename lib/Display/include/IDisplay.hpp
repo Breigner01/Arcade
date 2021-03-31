@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../../../include/Input.hpp"
-#include "../../../include/Tile.hpp"
+#include <memory>
+#include "Input.hpp"
+#include "Object.hpp"
 
 namespace Arcade
 {
@@ -12,7 +13,7 @@ namespace Arcade
 		virtual Arcade::Input event() = 0;
 		virtual void clear() = 0;
 		virtual void refresh() = 0;
-        virtual void draw(Arcade::Tile tile) = 0;
+        virtual void draw(std::shared_ptr<Arcade::IObject> object) = 0;
         virtual void playSound(Arcade::Sound sound) = 0;
 	};
 }

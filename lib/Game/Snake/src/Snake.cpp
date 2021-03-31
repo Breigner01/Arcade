@@ -7,17 +7,17 @@ extern "C" Arcade::Snake *Arcade::entry_point()
 
 Arcade::Snake::Snake() : m_score(0), m_x(2), m_y(2)
 {
-
 }
 
 void Arcade::Snake::reset()
 {
-
+    m_x = 2;
+    m_y = 2;
 }
 
-std::vector<Arcade::Tile> Arcade::Snake::loop(Arcade::Input ev)
+std::vector<std::shared_ptr<Arcade::IObject> > Arcade::Snake::loop(Arcade::Input ev)
 {
-    std::vector<Arcade::Tile> buffer;
+    std::vector<std::shared_ptr<Arcade::IObject> > buffer;
 
     if (ev == Input::UP)
         direction = 1;
@@ -28,16 +28,16 @@ std::vector<Arcade::Tile> Arcade::Snake::loop(Arcade::Input ev)
     else if (ev == Input::RIGHT)
         direction = 8;
     for (int i = 0; i < 20; i++)
-        buffer.emplace_back("assets/blue.bmp", 'X', BLUE, i, 0);
+        buffer.push_back(std::make_shared<Tile>("assets/blue.bmp", 'X', BLUE, i, 0));
     for (int i = 0; i < 20; i++)
-        buffer.emplace_back("assets/blue.bmp", 'X', BLUE, i, 4);
+        buffer.push_back(std::make_shared<Tile>("assets/blue.bmp", 'X', BLUE, i, 4));
     for (int i = 0; i < 5; i++)
-        buffer.emplace_back("assets/blue.bmp", 'X', BLUE, 0, i);
+        buffer.push_back(std::make_shared<Tile>("assets/blue.bmp", 'X', BLUE, 0, i));
     for (int i = 0; i < 5; i++)
-        buffer.emplace_back("assets/blue.bmp", 'X', BLUE, 19, i);
-    buffer.emplace_back("assets/green.bmp", 'H', GREEN, 7, 2);
-    buffer.emplace_back("assets/green.bmp", 'H', GREEN, 14, 2);
-    buffer.emplace_back("assets/red.bmp", 'O', RED, m_x, m_y);
+        buffer.push_back(std::make_shared<Tile>("assets/blue.bmp", 'X', BLUE, 19, i));
+    buffer.push_back(std::make_shared<Tile>("assets/green.bmp", 'H', GREEN, 7, 2));
+    buffer.push_back(std::make_shared<Tile>("assets/green.bmp", 'H', GREEN, 14, 2));
+    buffer.push_back(std::make_shared<Tile>("assets/red.bmp", 'O', RED, m_x, m_y));
     switch (direction) {
         case 1:
             m_y--;
