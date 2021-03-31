@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../include/IDisplay.hpp"
+#include "IDisplay.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>

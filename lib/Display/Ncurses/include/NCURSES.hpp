@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../include/IDisplay.hpp"
+#include "IDisplay.hpp"
 #include <iostream>
 
 namespace Arcade
