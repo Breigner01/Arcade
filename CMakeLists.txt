@@ -3,17 +3,15 @@ project(arcade)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_VERBOSE_MAKEFILE on)
-
 add_compile_options(-Wall -Wextra -Weffc++)
 
 set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
-        ../arcade
-        ../lib/arcade_ncurses.so
-        ../lib/arcade_sdl2.so
-        ../lib/arcade_sfml.so
-        ../lib/arcade_nibbler.so
-        ../lib/arcade_pacman.so)
+        ${PROJECT_SOURCE_DIR}/arcade
+        ${PROJECT_SOURCE_DIR}/lib/arcade_ncurses.so
+        ${PROJECT_SOURCE_DIR}/lib/arcade_sdl2.so
+        ${PROJECT_SOURCE_DIR}/lib/arcade_sfml.so
+        ${PROJECT_SOURCE_DIR}/lib/arcade_nibbler.so
+        ${PROJECT_SOURCE_DIR}/lib/arcade_pacman.so)
 
 add_executable(arcade
         src/main.cpp
@@ -37,4 +35,4 @@ add_subdirectory(lib/Game/Snake)
 add_dependencies(arcade ncurses sdl2 sfml pacman nibbler)
 
 add_custom_command(TARGET arcade POST_BUILD
-        COMMAND cp arcade ..)
+        COMMAND cp arcade ${PROJECT_SOURCE_DIR})

@@ -10,9 +10,9 @@ add_library(pacman SHARED
 set_target_properties(pacman PROPERTIES PREFIX "arcade_")
 
 target_include_directories(pacman PRIVATE
-        include
-        ../include
-        ../../../include)
+        ${PROJECT_SOURCE_DIR}/lib/Game/Pacman/include
+        ${PROJECT_SOURCE_DIR}/lib/Game/include
+        ${PROJECT_SOURCE_DIR}/include)
 
 add_custom_command(TARGET pacman POST_BUILD
-        COMMAND cp arcade_pacman.so ../../../../lib)
+        COMMAND cp arcade_pacman.so ${PROJECT_SOURCE_DIR}/lib)

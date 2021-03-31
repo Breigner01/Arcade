@@ -15,9 +15,9 @@ target_link_libraries(sfml PRIVATE
         sfml-window)
 
 target_include_directories(sfml PRIVATE
-        include
-        ../include
-        ../../../include)
+        ${PROJECT_SOURCE_DIR}/lib/Display/SFML/include
+        ${PROJECT_SOURCE_DIR}/lib/Display/include
+        ${PROJECT_SOURCE_DIR}/include)
 
 add_custom_command(TARGET sfml POST_BUILD
-        COMMAND cp arcade_sfml.so ../../../../lib)
+        COMMAND cp arcade_sfml.so ${PROJECT_SOURCE_DIR}/lib)

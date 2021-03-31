@@ -14,9 +14,9 @@ target_link_libraries(sdl2 PRIVATE
         SDL2_ttf)
 
 target_include_directories(sdl2 PRIVATE
-        include
-        ../include
-        ../../../include)
+        ${PROJECT_SOURCE_DIR}/lib/Display/SDL/include
+        ${PROJECT_SOURCE_DIR}/lib/Display/include
+        ${PROJECT_SOURCE_DIR}/include)
 
 add_custom_command(TARGET sdl2 POST_BUILD
-        COMMAND cp arcade_sdl2.so ../../../../lib)
+        COMMAND cp arcade_sdl2.so ${PROJECT_SOURCE_DIR}/lib)

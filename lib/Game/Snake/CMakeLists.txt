@@ -10,9 +10,9 @@ add_library(nibbler SHARED
 set_target_properties(nibbler PROPERTIES PREFIX "arcade_")
 
 target_include_directories(nibbler PRIVATE
-        include
-        ../include
-        ../../../include)
+        ${PROJECT_SOURCE_DIR}/lib/Game/Snake/include
+        ${PROJECT_SOURCE_DIR}/lib/Game/include
+        ${PROJECT_SOURCE_DIR}/include)
 
 add_custom_command(TARGET nibbler POST_BUILD
-        COMMAND cp arcade_nibbler.so ../../../../lib)
+        COMMAND cp arcade_nibbler.so ${PROJECT_SOURCE_DIR}/lib)
