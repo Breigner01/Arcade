@@ -13,7 +13,9 @@ namespace Arcade
     public:
         SDL_Texture *m_img;
         SDL_Rect *m_rect;
+        SDL_Point m_center;
         SDLTextureObj(const std::string &path, SDL_Renderer *renderer);
+        SDLTextureObj(Arcade::Text text, TTF_Font *font, SDL_Renderer *renderer);
         ~SDLTextureObj();
         void setPosition(unsigned int x, unsigned int y);
     };
@@ -23,6 +25,7 @@ namespace Arcade
     private:
         SDL_Window *m_window;
         SDL_Renderer *m_renderer;
+        TTF_Font *m_font;
     public:
         SDL();
         ~SDL();

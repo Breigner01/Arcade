@@ -37,7 +37,10 @@ std::vector<std::shared_ptr<Arcade::IObject> > Arcade::Snake::loop(Arcade::Input
         buffer.push_back(std::make_shared<Tile>("assets/blue.bmp", 'X', BLUE, 19, i));
     buffer.push_back(std::make_shared<Tile>("assets/green.bmp", 'H', GREEN, 7, 2));
     buffer.push_back(std::make_shared<Tile>("assets/green.bmp", 'H', GREEN, 14, 2));
-    buffer.push_back(std::make_shared<Tile>("assets/red.bmp", 'O', RED, m_x, m_y));
+    auto player = std::make_shared<Tile>("assets/red.bmp", 'O', RED, m_x, m_y);
+    player->setRotation(90);
+    buffer.push_back(player);
+    buffer.push_back(std::make_shared<Text>("Press M to return to menu", RED, 3, 5));
     switch (direction) {
         case 1:
             m_y--;

@@ -21,15 +21,23 @@ Arcade::SDL::SDL()
 
     if (m_renderer == NULL)
         throw Arcade::exception("Error SDL_CreateRenderer : " + std::string(SDL_GetError()));
+
+    if (TTF_Init() == -1)
+        throw Arcade::exception("Error TTF_Init : " + std::string(TTF_GetError()));
+    m_font = TTF_OpenFont("assets/font.ttf", 30);
+    if (m_font == NULL)
+        throw Arcade::exception("Error font not found");
 }
 
 Arcade::SDL::~SDL()
 {
     SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);
+    TTF_CloseFont(m_font);
     Mix_CloseAudio();
     Mix_Quit();
     IMG_Quit();
+    TTF_Quit();
     SDL_Quit();
 }
 
@@ -91,6 +99,12 @@ void Arcade::SDL::draw(std::shared_ptr<Arcade::IObject> object)
         auto tile = dynamic_cast<Arcade::Tile *>(object.get());
         std::shared_ptr<SDLTextureObj> tmpTexture = std::make_shared<SDLTextureObj>(tile->getPath(), m_renderer);
         tmpTexture->setPosition(tile->getPosition().first, tile->getPosition().second);
+        SDL_RenderCopyEx(m_renderer, tmpTexture->m_img, nullptr, tmpTexture->m_rect, tile->getRotation(), &tmpTexture->m_center, static_cast<SDL_RendererFlip>(SDL_FLIP_NONE));
+    }
+    else if (dynamic_cast<Arcade::Text*>(object.get()) != nullptr) {
+        auto text = dynamic_cast<Arcade::Text *>(object.get());
+        std::shared_ptr<SDLTextureObj> tmpTexture = std::make_shared<SDLTextureObj>(*text, m_font, m_renderer);
+        tmpTexture->setPosition(text->getPosition().first, text->getPosition().second);
         SDL_RenderCopy(m_renderer, tmpTexture->m_img, NULL, tmpTexture->m_rect);
     }
 }
@@ -104,6 +118,20 @@ Arcade::SDLTextureObj::SDLTextureObj(const std::string &path, SDL_Renderer *rend
     SDL_QueryTexture(m_img, NULL, NULL, &w, &h);
     m_rect->h = h;
     m_rect->w = w;
+    m_center.x = m_rect->w / 2;
+    m_center.y = m_rect->h / 2;
+}
+
+Arcade::SDLTextureObj::SDLTextureObj(Arcade::Text text, TTF_Font *font, SDL_Renderer *renderer)
+    : m_img(NULL), m_rect(new SDL_Rect)
+{
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.getText().c_str(), { 255, 255, 255, 0 });
+    m_img = SDL_CreateTextureFromSurface(renderer, textSurface);
+    int w, h;
+    SDL_QueryTexture(m_img, NULL, NULL, &w, &h);
+    m_rect->h = h;
+    m_rect->w = w;
+    SDL_FreeSurface(textSurface);
 }
 
 void Arcade::SDLTextureObj::setPosition(unsigned int x, unsigned int y)

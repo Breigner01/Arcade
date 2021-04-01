@@ -12,6 +12,8 @@ Arcade::SFML::SFML()
     m_window.create(sf::VideoMode(1000, 700), "Arcade - SFML");
     m_window.setFramerateLimit(60);
     m_window.setKeyRepeatEnabled(true);
+    if (!m_font.loadFromFile("assets/font.ttf"))
+        throw Arcade::exception("Failed to load font");
 }
 
 Arcade::SFML::~SFML()
@@ -77,7 +79,18 @@ void Arcade::SFML::draw(std::shared_ptr<Arcade::IObject> object)
             throw Arcade::exception("SFML Failed to load a texture");
         sprite->setTexture(*texture, true);
         sprite->setPosition(tile->getPosition().first * Arcade::tileSize, tile->getPosition().second * Arcade::tileSize);
+        sprite->setRotation(tile->getRotation());
 
         m_window.draw(*sprite);
+    }
+    else if (dynamic_cast<Arcade::Text*>(object.get()) != nullptr) {
+        auto text = dynamic_cast<Arcade::Text *>(object.get());
+        std::shared_ptr<sf::Text> txtobj = std::make_shared<sf::Text>();
+        txtobj->setFont(m_font);
+        txtobj->setString(text->getText());
+        txtobj->setPosition(text->getPosition().first * Arcade::tileSize, text->getPosition().second * Arcade::tileSize);
+        txtobj->setCharacterSize(30);
+
+        m_window.draw(*txtobj);
     }
 }
