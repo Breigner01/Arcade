@@ -95,7 +95,13 @@ void Arcade::SDL::clear()
 
 void Arcade::SDL::draw(std::shared_ptr<Arcade::IObject> object)
 {
-    if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr) {
+    if (dynamic_cast<Arcade::DynamicTile*>(object.get()) != nullptr) {
+        auto tile = dynamic_cast<Arcade::DynamicTile *>(object.get())->getActualTile();
+        std::shared_ptr<SDLTextureObj> tmpTexture = std::make_shared<SDLTextureObj>(tile->getPath(), m_renderer);
+        tmpTexture->setPosition(tile->getPosition().first, tile->getPosition().second);
+        SDL_RenderCopyEx(m_renderer, tmpTexture->m_img, nullptr, tmpTexture->m_rect, tile->getRotation(), &tmpTexture->m_center, static_cast<SDL_RendererFlip>(SDL_FLIP_NONE));
+    }
+    else if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr) {
         auto tile = dynamic_cast<Arcade::Tile *>(object.get());
         std::shared_ptr<SDLTextureObj> tmpTexture = std::make_shared<SDLTextureObj>(tile->getPath(), m_renderer);
         tmpTexture->setPosition(tile->getPosition().first, tile->getPosition().second);

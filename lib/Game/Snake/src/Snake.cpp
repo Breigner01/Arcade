@@ -5,8 +5,12 @@ extern "C" Arcade::Snake *Arcade::entry_point()
     return new Arcade::Snake;
 }
 
-Arcade::Snake::Snake() : m_score(0), m_x(2), m_y(2)
+Arcade::Snake::Snake()
+    : m_score(0), m_x(2), m_y(2), dynBlock(std::make_shared<Arcade::DynamicTile>(Tile("assets/red.bmp", 'X', RED), 4))
 {
+    dynBlock->addTile(Tile("assets/blue.bmp", 'Y', BLUE));
+    dynBlock->addTile(Tile("assets/green.bmp", 'Z', GREEN));
+    dynBlock->setPosition(10, 10);
 }
 
 void Arcade::Snake::reset()
@@ -41,6 +45,8 @@ std::vector<std::shared_ptr<Arcade::IObject> > Arcade::Snake::loop(Arcade::Input
     player->setRotation(90);
     buffer.push_back(player);
     buffer.push_back(std::make_shared<Text>("Press M to return to menu", RED, 3, 5));
+    buffer.push_back(dynBlock);
+    dynBlock->animate();
     switch (direction) {
         case 1:
             m_y--;

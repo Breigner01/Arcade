@@ -16,7 +16,4 @@ int main(int ac, char **av)
     return EXIT_SUCCESS;
 }
 
-// encapsuler proprement DyLib
 // fix memory leaks sdl -> shared ptr
-
-// tilesets []

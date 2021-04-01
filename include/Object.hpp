@@ -2,6 +2,7 @@
 
 #include <string>
 #include <utility>
+#include <vector>
 
 namespace Arcade
 {
@@ -42,6 +43,50 @@ namespace Arcade
         void setColor(Arcade::Color color) {m_color = color;};
         void setPosition(unsigned int x, unsigned int y) {m_pos.first = x; m_pos.second = y;};
         void setRotation(unsigned int angle) {m_rotation = angle;};
+    };
+
+    class DynamicTile : public IObject
+    {
+    private:
+        std::vector<Arcade::Tile> m_tiles;
+        size_t m_iterator;
+        size_t m_recurence_max;
+        size_t m_recurence_actual;
+    public:
+        DynamicTile(const Tile &main_tile, unsigned int recurence = 0)
+        : m_iterator(0), m_recurence_max(recurence), m_recurence_actual(0)
+        {m_tiles.push_back(main_tile);};
+        ~DynamicTile() = default;
+        // GETTERS
+        std::pair<unsigned int, unsigned int> getPosition() const {return m_tiles[m_iterator].getPosition();};
+        unsigned int getRotation() const {return m_tiles[m_iterator].getRotation();};
+        Arcade::Tile *getActualTile() {return &m_tiles[m_iterator];};
+        // SETTERStile
+        void setPosition(unsigned int x, unsigned int y)
+        {
+            for (auto &tile : m_tiles)
+                tile.setPosition(x, y);
+        };
+        void setRotation(unsigned int angle)
+        {
+            for (auto &tile : m_tiles)
+                tile.setRotation(angle);
+        };
+        void addTile(const Arcade::Tile &tile)
+        {
+            m_tiles.push_back(tile);
+        };
+        void animate()
+        {
+            if (m_recurence_actual != m_recurence_max) {
+                m_recurence_actual++;
+                return;
+            }
+            m_iterator++;
+            m_recurence_actual = 0;
+            if (m_iterator == m_tiles.size())
+                m_iterator = 0;
+        };
     };
 
     class Sound : public IObject

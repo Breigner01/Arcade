@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IGame.hpp"
+#include <memory>
 
 namespace Arcade
 {
@@ -11,6 +12,7 @@ namespace Arcade
         unsigned int m_x;
         unsigned int m_y;
         unsigned char direction = 8;
+        std::shared_ptr<Arcade::DynamicTile> dynBlock;
     public:
         Snake();
         ~Snake() override = default;
