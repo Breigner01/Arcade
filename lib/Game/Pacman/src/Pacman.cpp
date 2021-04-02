@@ -1,4 +1,6 @@
+#include <fstream>
 #include "Pacman.hpp"
+#include "CoordinatesCompute.hpp"
 
 extern "C" Arcade::Pacman *Arcade::entry_point()
 {
@@ -7,6 +9,15 @@ extern "C" Arcade::Pacman *Arcade::entry_point()
 
 Arcade::Pacman::Pacman() : m_score(0), m_x(2), m_y(2)
 {
+    std::ifstream stream("assets/Pacman/map.txt");
+
+    m_map.assign((char *)stream.rdbuf());
+    std::erase_if(m_map, [](char c) { return (c == 'Z'); });
+    for (auto &c : m_map)
+        if (c == '\n')
+            m_nbLines += 1;
+    while (m_map[m_lineLen] != '\n')
+        m_lineLen += 1;
 }
 
 void Arcade::Pacman::reset()
@@ -15,9 +26,22 @@ void Arcade::Pacman::reset()
     m_y = 2;
 }
 
-std::vector<std::shared_ptr<Arcade::IObject> > Arcade::Pacman::loop(Arcade::Input ev)
+
+int Arcade::Pacman::checkForCollisions(int dir_x, int dir_y)
 {
-    std::vector<std::shared_ptr<Arcade::IObject> > buffer;
+    if (dir_x != 0 && dir_y != 0)
+        return (-1);
+    std::size_t pos = computeCoordinates(m_x + dir_x, m_y + dir_y, m_lineLen);
+    if (m_map[pos] == m_wall)
+        return (1);
+    else if (m_map[pos] == m_phantom)
+        return (2);
+    return (0);
+}
+
+std::vector<std::shared_ptr<Arcade::IObject>>Arcade::Pacman::loop(Arcade::Input ev)
+{
+    std::vector<std::shared_ptr<Arcade::IObject>> buffer;
 
     if (ev == Input::UP)
         m_y--;
