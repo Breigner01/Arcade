@@ -17,3 +17,5 @@ int main(int ac, char **av)
 }
 
 // fix memory leaks sdl -> shared ptr
+
+// text accurate color SDL / SFML

@@ -105,4 +105,15 @@ void Arcade::SFML::draw(std::shared_ptr<Arcade::IObject> object)
 
         m_window.draw(*txtobj);
     }
+    else if (dynamic_cast<Arcade::Sound*>(object.get()) != nullptr)
+        playSound(dynamic_cast<Arcade::Sound*>(object.get()));
+}
+
+void Arcade::SFML::playSound(Arcade::Sound *sound)
+{
+    auto tmpbuffer = std::make_shared<sf::SoundBuffer>();
+    if (!tmpbuffer->loadFromFile(sound->getSound()))
+        throw Arcade::exception("SFML Failed to load a sound");
+    auto tmpsound = std::make_shared<sf::Sound>(*tmpbuffer);
+    tmpsound->play();
 }

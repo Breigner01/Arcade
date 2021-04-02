@@ -33,7 +33,7 @@ namespace Arcade
         void clear();
         void refresh();
         void draw(std::shared_ptr<Arcade::IObject> object);
-        void playSound(Arcade::Sound sound) {(void)sound;};
+        void playSound(Arcade::Sound *sound);
     };
     extern "C" SDL *entry_point();
 }

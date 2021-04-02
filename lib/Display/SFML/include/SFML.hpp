@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
 
 namespace Arcade
 {
@@ -19,7 +20,7 @@ namespace Arcade
         void clear();
         void refresh();
         void draw(std::shared_ptr<Arcade::IObject> object);
-        void playSound(Arcade::Sound sound) {(void)sound;};
+        void playSound(Arcade::Sound *sound);
     };
     extern "C" SFML *entry_point();
 }

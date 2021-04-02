@@ -27,6 +27,8 @@ Arcade::SDL::SDL()
     m_font = TTF_OpenFont("assets/font.ttf", 30);
     if (m_font == NULL)
         throw Arcade::exception("Error font not found");
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
+        throw Arcade::exception("Error Mix_OpenAudio : " + std::string(Mix_GetError()));
 }
 
 Arcade::SDL::~SDL()
@@ -35,7 +37,6 @@ Arcade::SDL::~SDL()
     SDL_DestroyWindow(m_window);
     TTF_CloseFont(m_font);
     Mix_CloseAudio();
-    Mix_Quit();
     IMG_Quit();
     TTF_Quit();
     SDL_Quit();
@@ -113,6 +114,17 @@ void Arcade::SDL::draw(std::shared_ptr<Arcade::IObject> object)
         tmpTexture->setPosition(text->getPosition().first, text->getPosition().second);
         SDL_RenderCopy(m_renderer, tmpTexture->m_img, NULL, tmpTexture->m_rect);
     }
+    else if (dynamic_cast<Arcade::Sound*>(object.get()) != nullptr)
+        playSound(dynamic_cast<Arcade::Sound*>(object.get()));
+}
+
+void Arcade::SDL::playSound(Arcade::Sound *sound)
+{
+    auto m_music = Mix_LoadMUS(sound->getSound().c_str());
+    if (!m_music)
+        throw Arcade::exception("Error Mix_LoadMUS");
+    Mix_PlayMusic(m_music, 1);
+    Mix_FreeMusic(m_music);
 }
 
 Arcade::SDLTextureObj::SDLTextureObj(const std::string &path, SDL_Renderer *renderer)

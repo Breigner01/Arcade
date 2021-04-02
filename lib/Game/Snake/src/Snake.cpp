@@ -47,6 +47,7 @@ std::vector<std::shared_ptr<Arcade::IObject> > Arcade::Snake::loop(Arcade::Input
     buffer.push_back(std::make_shared<Text>("Press M to return to menu", RED, 3, 5));
     buffer.push_back(dynBlock);
     dynBlock->animate();
+    buffer.push_back(std::make_shared<Sound>("assets/sound.wav"));
     switch (direction) {
         case 1:
             m_y--;

@@ -14,6 +14,6 @@ namespace Arcade
 		virtual void clear() = 0;
 		virtual void refresh() = 0;
         virtual void draw(std::shared_ptr<Arcade::IObject> object) = 0;
-        virtual void playSound(Arcade::Sound sound) = 0;
+        virtual void playSound(Arcade::Sound *sound) = 0;
 	};
 }
