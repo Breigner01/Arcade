@@ -15,6 +15,10 @@ namespace Arcade
         unsigned char direction = 8;
         std::shared_ptr<Arcade::DynamicTile> dynBlock;
 
+        std::vector<std::shared_ptr<Arcade::Tile>> m_buf_wall;
+        std::vector<std::shared_ptr<Arcade::Tile>> m_buf_snake;
+        std::vector<std::shared_ptr<Arcade::Tile>> m_buf_apple;
+
         std::string m_map;
         unsigned int m_nbLines{};
         unsigned int m_lineLen{};
