@@ -1,4 +1,6 @@
+#include <fstream>
 #include "Snake.hpp"
+#include "CoordinatesCompute.hpp"
 
 extern "C" Arcade::Snake *Arcade::entry_point()
 {
@@ -8,6 +10,14 @@ extern "C" Arcade::Snake *Arcade::entry_point()
 Arcade::Snake::Snake()
     : m_score(0), m_x(2), m_y(2), dynBlock(std::make_shared<Arcade::DynamicTile>(Tile("assets/red.bmp", 'X', RED), 4))
 {
+    std::ifstream stream("assets/Snake/map.txt");
+
+    m_map.assign((char *)stream.rdbuf());
+    for (auto &c : m_map)
+        if (c == '\n')
+            m_nbLines += 1;
+    while (m_map[m_lineLen] != '\n')
+        m_lineLen += 1;
     dynBlock->addTile(Tile("assets/blue.bmp", 'Y', BLUE));
     dynBlock->addTile(Tile("assets/green.bmp", 'Z', GREEN));
     dynBlock->setPosition(10, 10);
@@ -19,9 +29,23 @@ void Arcade::Snake::reset()
     m_y = 2;
 }
 
-std::vector<std::shared_ptr<Arcade::IObject> > Arcade::Snake::loop(Arcade::Input ev)
+int Arcade::Snake::checkForCollisions(int dir_x, int dir_y)
 {
-    std::vector<std::shared_ptr<Arcade::IObject> > buffer;
+    if (dir_x != 0 && dir_y != 0)
+        return (-1);
+    std::size_t pos = computeCoordinates(m_x + dir_x, m_y + dir_y, m_lineLen);
+    if (m_map[pos] == m_wall)
+        return (1);
+    else if (m_map[pos] == m_apple)
+        return (2);
+    else if (m_map[pos] == m_snake)
+        return (3);
+    return (0);
+}
+
+std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input ev)
+{
+    std::vector<std::shared_ptr<Arcade::IObject>> buffer;
 
     if (ev == Input::UP)
         direction = 1;
