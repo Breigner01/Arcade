@@ -35,11 +35,11 @@ Arcade::Snake::Snake() : m_x(2), m_y(2), m_dirX(1), m_dirY(0), m_rotate(270), m_
             x = 0;
             continue;
         } else if (c == m_snake) {
-            m_buf_snake.push_back(std::make_shared<Tile>("assets/blue.bmp", m_snake, BLUE, x, y));
+            m_buf_snake.push_back(std::make_shared<Tile>("assets/Snake/snake.png", m_snake, BLUE, x, y));
         } else if (c == m_wall) {
-            m_buf_wall.push_back(std::make_shared<Tile>("assets/green.bmp", m_wall, GREEN, x, y));
+            m_buf_wall.push_back(std::make_shared<Tile>("assets/Snake/wall.png", m_wall, GREEN, x, y));
         } else if (c == m_snakeHead) {
-            m_buf_snake.push_back(std::make_shared<Tile>("assets/test.png", m_snakeHead, MAGENTA, x, y));
+            m_buf_snake.push_back(std::make_shared<Tile>("assets/Snake/snake_head.png", m_snakeHead, MAGENTA, x, y));
             m_x = x;
             m_y = y;
         }
