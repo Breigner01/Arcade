@@ -76,22 +76,16 @@ int Arcade::Snake::movements()
             }
             i += 1;
         }
-        m_buf_snake.emplace_back(m_buf_snake[m_buf_snake.size() - 1]);
-        for (std::size_t j = m_buf_snake.size() - 2; j > 1; j--) {
-            auto prevPos = m_buf_snake[j - 1]->getPosition();
-            m_buf_snake[j]->setPosition(prevPos.first, prevPos.second);
-            m_map[computeIndex(prevPos.first, prevPos.second, m_lineLen)] = 'S';
-        }
+        m_buf_snake.push_back(std::make_shared<Arcade::Tile>("assets/Snake/snake.png", m_snake, BLUE, 0, 0));
         generateNewApple();
     } else {
         auto tailPos = m_buf_snake[m_buf_snake.size() - 1]->getPosition();
         m_map[computeIndex(tailPos.first, tailPos.second, m_lineLen)] = ' ';
-        for (std::size_t j = m_buf_snake.size() - 1; j > 1; j--) {
-            auto prevPos = m_buf_snake[j - 1]->getPosition();
-            m_buf_snake[j]->setPosition(prevPos.first, prevPos.second);
-            m_map[computeIndex(prevPos.first, prevPos.second, m_lineLen)] = 'S';
-            std::cout << "Moving Bitch" << std::endl;
-        }
+    }
+    for (std::size_t i = m_buf_snake.size() - 1; i > 0; i--) {
+        auto prevPos = m_buf_snake[i - 1]->getPosition();
+        m_buf_snake[i]->setPosition(prevPos.first, prevPos.second);
+        m_map[computeIndex(prevPos.first, prevPos.second, m_lineLen)] = 'S';
     }
     m_buf_snake[0]->setPosition(x, y);
     m_map[computeIndex(x, y, m_lineLen)] = 'N';
@@ -110,7 +104,8 @@ void Arcade::Snake::generateNewApple()
     m_map[index] = m_apple;
 
     auto pos = computeCoordinates(index, m_lineLen);
-    m_buf_apple.push_back(std::make_shared<Arcade::Tile>("assets/red.bmp", m_apple, RED, pos.first, pos.second));
+    m_buf_apple.push_back(std::make_shared<Arcade::Tile>("assets/Snake/apple.png", m_apple, RED, pos.first, pos
+    .second));
 }
 
 std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input ev)
