@@ -1,5 +1,6 @@
 #include "Core.hpp"
 #include <unistd.h>
+#include <iostream>
 
 Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av)
 {

@@ -8,10 +8,10 @@ namespace Arcade
     {
     private:
 
-        int m_score;
-        unsigned int m_x;
-        unsigned int m_y;
-        std::string m_map;
+        int m_score{};
+        unsigned int m_x{};
+        unsigned int m_y{};
+        std::string m_map{};
         int m_nbLines{};
         int m_lineLen{};
 

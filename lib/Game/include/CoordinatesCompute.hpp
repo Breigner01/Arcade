@@ -8,6 +8,7 @@
 #pragma once
 
 #include <cstddef>
+#include <utility>
 
 namespace Arcade {
 
@@ -19,6 +20,7 @@ namespace Arcade {
  * @param lineLen length of a line
  * @return The corresponding index
  */
-std::size_t computeCoordinates(unsigned int x, unsigned int y, unsigned int lineLen);
+std::size_t computeIndex(unsigned int x, unsigned int y, unsigned int lineLen);
+std::pair<unsigned int, unsigned int> computeCoordinates(unsigned int index, unsigned int lineLen);
 
 }

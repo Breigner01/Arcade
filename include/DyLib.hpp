@@ -24,10 +24,12 @@ public:
     void loadLib(const std::string &path)
     {
         this->releaseLib();
-        m_handle = dlopen(path.c_str(), RTLD_NOW);
+        m_handle = dlopen(path.c_str(), RTLD_NOW | RTLD_LOCAL);
         if (!m_handle)
             throw Arcade::exception(dlerror());
         void *t = dlsym(m_handle, "entry_point");
+        if (!t)
+            throw Arcade::exception(dlerror());
         m_lib = ((T *(*)()) t)();
     }
     void releaseLib()
@@ -35,6 +37,7 @@ public:
         delete m_lib;
         if (m_handle)
             dlclose(m_handle);
+        m_handle = nullptr;
     }
     T *get() {return m_lib;}
 };
