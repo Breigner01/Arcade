@@ -8,7 +8,7 @@ X X XXX XXX XXX X X
 X   X   X X   X   X
 X X X X XXX X X X X
 X     X  NSSX     X
-X X X X XXX X X X X
+X X X X XXXSX X X X
 X   X   X X   X   X
 X X XXX XXX XXX X X
 X X             X X

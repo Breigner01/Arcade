@@ -10,7 +10,7 @@ extern "C" Arcade::Snake *Arcade::entry_point()
     return new Arcade::Snake;
 }
 
-Arcade::Snake::Snake() : m_x(2), m_y(2), m_dirX(1), m_dirY(0), m_rotate(270), m_gen(m_rd())
+Arcade::Snake::Snake() : m_x(2), m_y(2), m_dirX(-1), m_dirY(0), m_rotate(90), m_gen(m_rd())
 {
     std::ifstream stream("assets/Snake/map.txt");
     std::ostringstream content;
@@ -90,6 +90,7 @@ int Arcade::Snake::movements()
             auto prevPos = m_buf_snake[j - 1]->getPosition();
             m_buf_snake[j]->setPosition(prevPos.first, prevPos.second);
             m_map[computeIndex(prevPos.first, prevPos.second, m_lineLen)] = 'S';
+            std::cout << "Moving Bitch" << std::endl;
         }
     }
     m_buf_snake[0]->setPosition(x, y);
@@ -109,34 +110,43 @@ void Arcade::Snake::generateNewApple()
     m_map[index] = m_apple;
 
     auto pos = computeCoordinates(index, m_lineLen);
-    m_buf_apple.emplace_back(std::make_shared<Arcade::Tile>("assets/red.bmp", m_apple, RED, pos.first, pos.second));
+    m_buf_apple.push_back(std::make_shared<Arcade::Tile>("assets/red.bmp", m_apple, RED, pos.first, pos.second));
 }
 
 std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input ev)
 {
     switch (ev) {
         case Input::UP:
+            if (m_dirY == 1)
+                break;
             m_dirX = 0;
             m_dirY = -1;
             m_rotate = 180;
             break;
         case Input::DOWN:
+            if (m_dirY == -1)
+                break;
             m_dirX = 0;
             m_dirY = 1;
             m_rotate = 0;
             break;
         case Input::LEFT:
+            if (m_dirX == 1)
+                break;
             m_dirX = -1;
             m_dirY = 0;
             m_rotate = 90;
             break;
         case Input::RIGHT:
+            if (m_dirX == -1)
+                break;
             m_dirX = 1;
             m_dirY = 0;
             m_rotate = 270;
             break;
     }
     int ret = movements();
+    std::cout << m_map << std::endl;
     if (ret == -1)
         std::cout << "An error occurred" << std::endl;
     else if (ret == 1)

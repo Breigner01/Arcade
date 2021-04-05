@@ -13,8 +13,8 @@ private:
     int m_score{};
     unsigned int m_x;
     unsigned int m_y;
-    unsigned int m_dirX;
-    unsigned int m_dirY;
+    int m_dirX;
+    int m_dirY;
     unsigned int m_rotate;
 
     std::random_device m_rd{};
