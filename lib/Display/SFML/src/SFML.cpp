@@ -79,8 +79,9 @@ void Arcade::SFML::draw(std::shared_ptr<Arcade::IObject> object)
             throw Arcade::exception("SFML Failed to load a texture");
         sprite->setTexture(*texture, true);
         sprite->setPosition(tile->getPosition().first * Arcade::tileSize, tile->getPosition().second * Arcade::tileSize);
+        sprite->setOrigin(Arcade::tileSize / 2, Arcade::tileSize / 2);
         sprite->setRotation(tile->getRotation());
-
+        //test.SetCenter( test.GetSize() / 2.f );
         m_window.draw(*sprite);
     }
     else if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr) {
@@ -91,6 +92,7 @@ void Arcade::SFML::draw(std::shared_ptr<Arcade::IObject> object)
             throw Arcade::exception("SFML Failed to load a texture");
         sprite->setTexture(*texture, true);
         sprite->setPosition(tile->getPosition().first * Arcade::tileSize, tile->getPosition().second * Arcade::tileSize);
+        sprite->setOrigin(Arcade::tileSize / 2, Arcade::tileSize / 2);
         sprite->setRotation(tile->getRotation());
 
         m_window.draw(*sprite);

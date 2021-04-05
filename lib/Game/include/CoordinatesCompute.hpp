@@ -20,7 +20,7 @@ namespace Arcade {
  * @param lineLen length of a line
  * @return The corresponding index
  */
-std::size_t computeIndex(unsigned int x, unsigned int y, unsigned int lineLen);
-std::pair<unsigned int, unsigned int> computeCoordinates(unsigned int index, unsigned int lineLen);
+extern "C" std::size_t computeIndex(unsigned int x, unsigned int y, unsigned int lineLen);
+extern "C" std::pair<unsigned int, unsigned int> computeCoordinates(unsigned int index, unsigned int lineLen);
 
 }
