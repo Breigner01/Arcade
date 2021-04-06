@@ -10,7 +10,7 @@ extern "C" Arcade::Snake *Arcade::entry_point()
     return new Arcade::Snake;
 }
 
-Arcade::Snake::Snake() : m_x(2), m_y(2), m_dirX(-1), m_dirY(0), m_rotate(90), m_gen(m_rd())
+Arcade::Snake::Snake() : m_dirX(-1), m_dirY(0), m_rotation(90), m_gen(m_rd())
 {
     std::ifstream stream("assets/Snake/map.txt");
     std::ostringstream content;
@@ -62,7 +62,7 @@ int Arcade::Snake::movements()
     if ((m_dirX != 0 && m_dirY != 0) || x >= m_lineLen || y >= m_nbLines)
         return (-1);
     std::size_t pos = computeIndex(x, y, m_lineLen);
-    m_buf_snake[0]->setRotation(m_rotate);
+    m_buf_snake[0]->setRotation(m_rotation);
     if (m_map[pos] == m_wall || m_map[pos] == m_snake)
         return (1);
     else if (m_map[pos] == m_apple) {
@@ -116,28 +116,28 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input 
                 break;
             m_dirX = 0;
             m_dirY = -1;
-            m_rotate = 180;
+            m_rotation = 180;
             break;
         case Input::DOWN:
             if (m_dirY == -1)
                 break;
             m_dirX = 0;
             m_dirY = 1;
-            m_rotate = 0;
+            m_rotation = 0;
             break;
         case Input::LEFT:
             if (m_dirX == 1)
                 break;
             m_dirX = -1;
             m_dirY = 0;
-            m_rotate = 90;
+            m_rotation = 90;
             break;
         case Input::RIGHT:
             if (m_dirX == -1)
                 break;
             m_dirX = 1;
             m_dirY = 0;
-            m_rotate = 270;
+            m_rotation = 270;
             break;
     }
     int ret = movements();

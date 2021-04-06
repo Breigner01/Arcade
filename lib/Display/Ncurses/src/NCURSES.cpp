@@ -16,6 +16,8 @@ std::map<Arcade::Color, unsigned int> colormap {
         {Arcade::Color::MAGENTA, 5},
         {Arcade::Color::CYAN, 6},
         {Arcade::Color::WHITE, 7},
+        {Arcade::Color::ORANGE, 8},
+        {Arcade::Color::PINK, 9},
 };
 
 Arcade::NCURSES::NCURSES()
@@ -35,6 +37,8 @@ Arcade::NCURSES::NCURSES()
     init_pair(5, COLOR_MAGENTA, 0);
     init_pair(6, COLOR_CYAN, 0);
     init_pair(7, COLOR_WHITE, 0);
+    init_pair(8, 14, 0);
+    init_pair(9, 40, 0);
 }
 
 Arcade::NCURSES::~NCURSES()

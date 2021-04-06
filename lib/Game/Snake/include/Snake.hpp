@@ -11,11 +11,11 @@ class Snake : public IGame {
 private:
 
     int m_score{};
-    unsigned int m_x;
-    unsigned int m_y;
+    unsigned int m_x{};
+    unsigned int m_y{};
     int m_dirX;
     int m_dirY;
-    unsigned int m_rotate;
+    unsigned int m_rotation;
 
     std::random_device m_rd{};
     std::mt19937 m_gen;

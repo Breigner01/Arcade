@@ -8,7 +8,7 @@ namespace Arcade
 {
     constexpr int tileSize = 50;
 
-    enum Color {WHITE, BLACK, RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN};
+    enum Color {WHITE, BLACK, RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN, ORANGE, PINK};
 
     class IObject
     {
@@ -30,13 +30,13 @@ namespace Arcade
     public:
         Tile(std::string path_to_bmp, unsigned char symbol, Arcade::Color color = WHITE, unsigned int x = 0, unsigned int y = 0)
                 : m_path(std::move(path_to_bmp)), m_rotation(0), m_symbol(symbol), m_color(color), m_pos(std::make_pair(x, y)) {};
-        ~Tile() = default;
+        ~Tile() override = default;
         // GETTERS
-        std::string getPath() const {return m_path;};
-        unsigned char getSymbol() const {return m_symbol;};
-        Arcade::Color getColor() const {return m_color;};
-        std::pair<unsigned int, unsigned int> getPosition() const {return m_pos;};
-        unsigned int getRotation() const {return m_rotation;};
+        [[nodiscard]] std::string getPath() const {return m_path;};
+        [[nodiscard]] unsigned char getSymbol() const {return m_symbol;};
+        [[nodiscard]] Arcade::Color getColor() const {return m_color;};
+        [[nodiscard]] std::pair<unsigned int, unsigned int> getPosition() const {return m_pos;};
+        [[nodiscard]] unsigned int getRotation() const {return m_rotation;};
         // SETTERS
         void setPath(std::string path_to_bmp) {m_path = std::move(path_to_bmp);};
         void setSymbol(unsigned char symbol) {m_symbol = symbol;};
@@ -53,13 +53,13 @@ namespace Arcade
         size_t m_recurence_max;
         size_t m_recurence_actual;
     public:
-        DynamicTile(const Tile &main_tile, unsigned int recurence = 0)
+        explicit DynamicTile(const Tile &main_tile, unsigned int recurence = 0)
         : m_iterator(0), m_recurence_max(recurence), m_recurence_actual(0)
         {m_tiles.push_back(main_tile);};
-        ~DynamicTile() = default;
+        ~DynamicTile() override = default;
         // GETTERS
-        std::pair<unsigned int, unsigned int> getPosition() const {return m_tiles[m_iterator].getPosition();};
-        unsigned int getRotation() const {return m_tiles[m_iterator].getRotation();};
+        [[nodiscard]] std::pair<unsigned int, unsigned int> getPosition() const {return m_tiles[m_iterator].getPosition();};
+        [[nodiscard]] unsigned int getRotation() const {return m_tiles[m_iterator].getRotation();};
         Arcade::Tile *getActualTile() {return &m_tiles[m_iterator];};
         // SETTERStile
         void setPosition(unsigned int x, unsigned int y)
@@ -94,9 +94,9 @@ namespace Arcade
     private:
         std::string m_path;
     public:
-        Sound(std::string path) : m_path(std::move(path)) {};
-        ~Sound() = default;
-        std::string getSound() const {return m_path;};
+        explicit Sound(std::string path) : m_path(std::move(path)) {};
+        ~Sound() override = default;
+        [[nodiscard]] std::string getSound() const {return m_path;};
         void setSound(std::string path) {m_path = std::move(path);};
     };
 
@@ -107,13 +107,13 @@ namespace Arcade
         Arcade::Color m_color;
         std::pair<unsigned int, unsigned int> m_pos;
     public:
-        Text(std::string text, Arcade::Color color = WHITE, unsigned int x = 0, unsigned int y = 0) : m_text(std::move(text)), m_color(color), m_pos(std::make_pair(x, y)) {};
-        ~Text() = default;
+        explicit Text(std::string text, Arcade::Color color = WHITE, unsigned int x = 0, unsigned int y = 0) : m_text(std::move(text)), m_color(color), m_pos(std::make_pair(x, y)) {};
+        ~Text() override = default;
         void setText(std::string text) {m_text = std::move(text);};
         void setColor(Arcade::Color color) {m_color = color;};
         void setPosition(unsigned int x, unsigned int y) {m_pos.first = x; m_pos.second = y;};
-        std::string getText() const {return m_text;};
-        Arcade::Color getColor() const {return m_color;};
-        std::pair<unsigned int, unsigned int> getPosition() const {return m_pos;};
+        [[nodiscard]] std::string getText() const {return m_text;};
+        [[nodiscard]] Arcade::Color getColor() const {return m_color;};
+        [[nodiscard]] std::pair<unsigned int, unsigned int> getPosition() const {return m_pos;};
     };
 }
