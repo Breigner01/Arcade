@@ -19,5 +19,6 @@ namespace Arcade
         void nextDisplay();
         void prevGame();
         void nextGame();
+        void menu();
     };
 }

@@ -2,15 +2,43 @@
 #include <unistd.h>
 #include <iostream>
 
+void Arcade::Core::menu()
+{
+    m_game.loadLib("./lib/arcade_menu.so");
+    while (true) {
+        auto menu_input = m_display.get()->event();
+        if (menu_input == ESCAPE)
+            return;
+        else if (menu_input == ENTER) {
+            m_game.loadLib(m_GameLibs[m_game.get()->getScore()]);
+            return;
+        }
+        else if (menu_input == P)
+            prevDisplay();
+        else if (menu_input == N)
+            nextDisplay();
+        else {
+            auto buffer = m_game.get()->loop(menu_input);
+            m_display.get()->clear();
+            for (auto &tile : buffer)
+                m_display.get()->draw(tile);
+            m_display.get()->refresh();
+        }
+        usleep(2000 * 60); // 60 == framerate
+    }
+}
+
 Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av)
 {
     m_display.loadLib(m_GraphLibs[m_GraphLibsIterator]);
-    m_game.loadLib(m_GameLibs[m_GameLibsIterator]);
+    menu();
 
     while (true) {
         auto input = m_display.get()->event();
         if (input == ESCAPE)
-            break;
+            return;
+        else if (input == MENU)
+            menu();
         else if (input == P)
             prevDisplay();
         else if (input == N)

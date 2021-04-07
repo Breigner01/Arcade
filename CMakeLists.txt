@@ -11,7 +11,8 @@ set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
         ${PROJECT_SOURCE_DIR}/lib/arcade_sdl2.so
         ${PROJECT_SOURCE_DIR}/lib/arcade_sfml.so
         ${PROJECT_SOURCE_DIR}/lib/arcade_nibbler.so
-        ${PROJECT_SOURCE_DIR}/lib/arcade_pacman.so)
+        ${PROJECT_SOURCE_DIR}/lib/arcade_pacman.so
+        ${PROJECT_SOURCE_DIR}/lib/arcade_menu.so)
 
 add_executable(arcade
         src/main.cpp
@@ -31,8 +32,9 @@ add_subdirectory(lib/Display/SFML)
 
 add_subdirectory(lib/Game/Pacman)
 add_subdirectory(lib/Game/Snake)
+add_subdirectory(lib/Game/Menu)
 
-add_dependencies(arcade ncurses sdl2 sfml pacman nibbler)
+add_dependencies(arcade ncurses sdl2 sfml pacman nibbler menu)
 
 add_custom_command(TARGET arcade POST_BUILD
         COMMAND cp arcade ${PROJECT_SOURCE_DIR})
