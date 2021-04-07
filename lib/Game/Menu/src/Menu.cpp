@@ -11,6 +11,7 @@ extern "C" Arcade::Menu *Arcade::entry_point()
 
 Arcade::Menu::Menu() : m_score(0), m_iterator(0)
 {
+    Arcade::tileSize = 50;
     int pos = 3;
 
     for (const auto &entry : std::filesystem::directory_iterator("./lib")) {
@@ -29,7 +30,7 @@ Arcade::Menu::Menu() : m_score(0), m_iterator(0)
     }
 
     m_menu_title = std::make_shared<Arcade::Text>("Arcade - Menu", WHITE, 5, 0);
-    m_selector = std::make_shared<Arcade::Tile>("assets/Menu/selector.jpg", '>', WHITE, 3, 3);
+    m_selector = std::make_shared<Arcade::Tile>("assets/Menu/selector.png", '>', WHITE, 3, 3);
 
     m_menu_enter = std::make_shared<Arcade::Text>("Select a game and press ENTER !", WHITE, 10, 20);
     m_menu_exit = std::make_shared<Arcade::Text>("Press ECHAP to exit Arcade", WHITE, 10, 22);

@@ -6,7 +6,7 @@
 
 namespace Arcade
 {
-    constexpr int tileSize = 50;
+    static int tileSize = 50;
 
     enum Color {WHITE, BLACK, RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN, ORANGE, PINK};
 

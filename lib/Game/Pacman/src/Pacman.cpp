@@ -12,6 +12,7 @@ extern "C" Arcade::Pacman *Arcade::entry_point()
 
 Arcade::Pacman::Pacman()
 {
+    Arcade::tileSize = 50;
     std::ifstream stream("assets/Pacman/map.txt");
     std::ostringstream content;
 
