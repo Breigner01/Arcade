@@ -12,7 +12,7 @@ extern "C" Arcade::Snake *Arcade::entry_point()
 
 Arcade::Snake::Snake() : m_dirX(-1), m_dirY(0), m_rotation(90), m_gen(m_rd())
 {
-    Arcade::tileSize = 50;
+    Arcade::setTileSize(50);
     std::ifstream stream("assets/Snake/map.txt");
     std::ostringstream content;
 

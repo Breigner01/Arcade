@@ -6,7 +6,16 @@
 
 namespace Arcade
 {
-    static int tileSize = 50;
+    inline const unsigned int &getTileSize()
+    {
+        static unsigned int tileSize = 50;
+        return tileSize;
+    };
+
+    inline void setTileSize(unsigned int size)
+    {
+        const_cast<unsigned int &>(getTileSize()) = size;
+    };
 
     enum Color {WHITE, BLACK, RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN, ORANGE, PINK};
 

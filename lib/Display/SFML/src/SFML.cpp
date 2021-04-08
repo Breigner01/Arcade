@@ -80,8 +80,8 @@ void Arcade::SFML::draw(std::shared_ptr<Arcade::IObject> object)
         if (!texture->loadFromFile(tile->getPath()))
             throw Arcade::exception("SFML Failed to load a texture");
         sprite->setTexture(*texture, true);
-        sprite->setPosition((tile->getPosition().first * Arcade::tileSize) + Arcade::tileSize / 2, (tile->getPosition().second * Arcade::tileSize) + Arcade::tileSize / 2);
-        sprite->setOrigin(Arcade::tileSize / 2, Arcade::tileSize / 2);
+        sprite->setPosition((tile->getPosition().first * Arcade::getTileSize()) + Arcade::getTileSize() / 2, (tile->getPosition().second * Arcade::getTileSize()) + Arcade::getTileSize() / 2);
+        sprite->setOrigin(Arcade::getTileSize() / 2, Arcade::getTileSize() / 2);
         sprite->setRotation(tile->getRotation());
         m_window.draw(*sprite);
     }
@@ -92,8 +92,8 @@ void Arcade::SFML::draw(std::shared_ptr<Arcade::IObject> object)
         if (!texture->loadFromFile(tile->getPath()))
             throw Arcade::exception("SFML Failed to load a texture");
         sprite->setTexture(*texture, true);
-        sprite->setPosition((tile->getPosition().first * Arcade::tileSize) + Arcade::tileSize / 2, (tile->getPosition().second * Arcade::tileSize) + Arcade::tileSize / 2);
-        sprite->setOrigin(Arcade::tileSize / 2, Arcade::tileSize / 2);
+        sprite->setPosition((tile->getPosition().first * Arcade::getTileSize()) + Arcade::getTileSize() / 2, (tile->getPosition().second * Arcade::getTileSize()) + Arcade::getTileSize() / 2);
+        sprite->setOrigin(Arcade::getTileSize() / 2, Arcade::getTileSize() / 2);
         sprite->setRotation(tile->getRotation());
 
         m_window.draw(*sprite);
@@ -103,7 +103,7 @@ void Arcade::SFML::draw(std::shared_ptr<Arcade::IObject> object)
         std::shared_ptr<sf::Text> txtobj = std::make_shared<sf::Text>();
         txtobj->setFont(m_font);
         txtobj->setString(text->getText());
-        txtobj->setPosition(text->getPosition().first * Arcade::tileSize, text->getPosition().second * Arcade::tileSize);
+        txtobj->setPosition(text->getPosition().first * Arcade::getTileSize(), text->getPosition().second * Arcade::getTileSize());
         txtobj->setCharacterSize(30);
 
         m_window.draw(*txtobj);

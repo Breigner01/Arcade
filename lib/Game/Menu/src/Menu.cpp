@@ -11,7 +11,7 @@ extern "C" Arcade::Menu *Arcade::entry_point()
 
 Arcade::Menu::Menu() : m_score(0), m_iterator(0)
 {
-    Arcade::tileSize = 50;
+    Arcade::setTileSize(30);
     int pos = 3;
 
     for (const auto &entry : std::filesystem::directory_iterator("./lib")) {

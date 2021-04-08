@@ -168,8 +168,8 @@ Arcade::SDLTextureObj::SDLTextureObj(Arcade::Text text, TTF_Font *font, SDL_Rend
 
 void Arcade::SDLTextureObj::setPosition(unsigned int x, unsigned int y)
 {
-    m_rect->x = x * Arcade::tileSize;
-    m_rect->y = y * Arcade::tileSize;
+    m_rect->x = x * Arcade::getTileSize();
+    m_rect->y = y * Arcade::getTileSize();
 }
 
 Arcade::SDLTextureObj::~SDLTextureObj()
