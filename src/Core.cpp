@@ -2,16 +2,16 @@
 #include <unistd.h>
 #include <iostream>
 
-void Arcade::Core::menu()
+bool Arcade::Core::menu()
 {
     m_game.loadLib("./lib/arcade_menu.so");
     while (true) {
         auto menu_input = m_display.get()->event();
         if (menu_input == ESCAPE)
-            return;
+            return false;
         else if (menu_input == ENTER) {
             m_game.loadLib(m_GameLibs[m_game.get()->getScore()]);
-            return;
+            return true;
         }
         else if (menu_input == P)
             prevDisplay();
@@ -31,14 +31,17 @@ void Arcade::Core::menu()
 Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av)
 {
     m_display.loadLib(m_GraphLibs[m_GraphLibsIterator]);
-    menu();
+    if (menu() == false)
+        return;
 
     while (true) {
         auto input = m_display.get()->event();
         if (input == ESCAPE)
             return;
-        else if (input == MENU)
-            menu();
+        else if (input == MENU) {
+            if (menu() == false)
+                return;
+        }
         else if (input == P)
             prevDisplay();
         else if (input == N)

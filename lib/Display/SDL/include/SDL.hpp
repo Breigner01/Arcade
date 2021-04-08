@@ -12,7 +12,7 @@ namespace Arcade
     {
     public:
         SDL_Texture *m_img;
-        SDL_Rect *m_rect;
+        SDL_Rect m_rect;
         SDL_Point m_center;
         SDLTextureObj(const std::string &path, SDL_Renderer *renderer);
         SDLTextureObj(Arcade::Text text, TTF_Font *font, SDL_Renderer *renderer);

@@ -11,7 +11,8 @@ private:
     void *m_handle{nullptr};
     T *m_lib{nullptr};
 public:
-    DyLib() = default;
+
+    DyLib() noexcept = default;
     DyLib(const std::string &path)
     {
         this->loadLib(path);
@@ -20,6 +21,11 @@ public:
     {
         this->releaseLib();
     }
+
+    DyLib(const DyLib&) = delete;
+    DyLib(DyLib &&) = delete;
+    DyLib& operator=(const DyLib&) = delete;
+    DyLib& operator=(DyLib &&) = delete;
 
     void loadLib(const std::string &path)
     {

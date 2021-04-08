@@ -9,7 +9,7 @@ extern "C" Arcade::SFML *Arcade::entry_point()
 
 Arcade::SFML::SFML()
 {
-    m_window.create(sf::VideoMode(1920, 1080), "Arcade - SFML");
+    m_window.create(sf::VideoMode(1600, 950), "Arcade - SFML");
     m_window.setFramerateLimit(60);
     m_window.setKeyRepeatEnabled(true);
     if (!m_font.loadFromFile("assets/font.ttf"))
