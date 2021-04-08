@@ -25,7 +25,7 @@ Arcade::NCURSES::NCURSES()
     initscr();
     noecho();
     keypad(stdscr, TRUE);
-    timeout(100);
+    nodelay(stdscr, true);
     curs_set(FALSE);
 
     start_color();
@@ -48,34 +48,39 @@ Arcade::NCURSES::~NCURSES()
 
 Arcade::Input Arcade::NCURSES::event()
 {
-    auto c = getch();
-    if (c == KEY_UP)
-        return UP;
-    else if (c == KEY_DOWN)
-        return DOWN;
-    else if (c == KEY_LEFT)
-        return LEFT;
-    else if (c == KEY_RIGHT)
-        return RIGHT;
-    else if (c == 10)
-        return ENTER;
-    else if (c == 32)
-        return SPACE;
-    else if (c == 27)
-        return ESCAPE;
-    else if (c == 114)
-        return RESET;
-    else if (c == 109)
-        return MENU;
-    else if (c == 110)
-        return N;
-    else if (c == 112)
-        return P;
-    else if (c == 105)
-        return I;
-    else if (c == 111)
-        return O;
-    return NIL;
+    Arcade::Input input = NIL;
+    int c = getch();
+
+    while (c != ERR) {
+        if (c == KEY_UP)
+            input = UP;
+        else if (c == KEY_DOWN)
+            input = DOWN;
+        else if (c == KEY_LEFT)
+            input = LEFT;
+        else if (c == KEY_RIGHT)
+            input = RIGHT;
+        else if (c == 10)
+            input = ENTER;
+        else if (c == 32)
+            input = SPACE;
+        else if (c == 27)
+            input = ESCAPE;
+        else if (c == 114)
+            input = RESET;
+        else if (c == 109)
+            input = MENU;
+        else if (c == 110)
+            input = N;
+        else if (c == 112)
+            input = P;
+        else if (c == 105)
+            input = I;
+        else if (c == 111)
+            input = O;
+        c = getch();
+    }
+    return input;
 }
 
 void Arcade::NCURSES::refresh()

@@ -24,39 +24,41 @@ Arcade::SFML::~SFML()
 Arcade::Input Arcade::SFML::event()
 {
     sf::Event ev;
+    Arcade::Input input = NIL;
+
     while (m_window.pollEvent(ev)) {
         if (ev.type == sf::Event::Closed)
-            return ESCAPE;
+            input = ESCAPE;
         if (ev.type == sf::Event::KeyPressed) {
             if (ev.key.code == sf::Keyboard::Up)
-                return UP;
+                input = UP;
             else if (ev.key.code == sf::Keyboard::Down)
-                return DOWN;
+                input = DOWN;
             else if (ev.key.code == sf::Keyboard::Left)
-                return LEFT;
+                input = LEFT;
             else if (ev.key.code == sf::Keyboard::Right)
-                return RIGHT;
+                input = RIGHT;
             else if (ev.key.code == sf::Keyboard::Enter)
-                return ENTER;
+                input = ENTER;
             else if (ev.key.code == sf::Keyboard::Space)
-                return SPACE;
+                input = SPACE;
             else if (ev.key.code == sf::Keyboard::Escape)
-                return ESCAPE;
+                input = ESCAPE;
             else if (ev.key.code == sf::Keyboard::R)
-                return RESET;
+                input = RESET;
             else if (ev.key.code == sf::Keyboard::M)
-                return MENU;
+                input = MENU;
             else if (ev.key.code == sf::Keyboard::N)
-                return N;
+                input = N;
             else if (ev.key.code == sf::Keyboard::P)
-                return P;
+                input = P;
             else if (ev.key.code == sf::Keyboard::I)
-                return I;
+                input = I;
             else if (ev.key.code == sf::Keyboard::O)
-                return O;
+                input = O;
         }
     }
-    return NIL;
+    return input;
 }
 
 void Arcade::SFML::refresh()

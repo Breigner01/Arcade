@@ -45,43 +45,57 @@ Arcade::SDL::~SDL()
 Arcade::Input Arcade::SDL::event()
 {
     SDL_Event event;
+    Arcade::Input input = NIL;
 
     while (SDL_PollEvent(&event) != 0) {
         switch (event.type) {
             case SDL_QUIT:
-                return ESCAPE;
+                input = ESCAPE;
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
                     case SDLK_LEFT:
-                        return LEFT;
+                        input = LEFT;
+                        break;
                     case SDLK_RIGHT:
-                        return RIGHT;
+                        input = RIGHT;
+                        break;
                     case SDLK_UP:
-                        return UP;
+                        input = UP;
+                        break;
                     case SDLK_DOWN:
-                        return DOWN;
+                        input = DOWN;
+                        break;
                     case SDLK_RETURN:
-                        return ENTER;
+                        input = ENTER;
+                        break;
                     case SDLK_SPACE:
-                        return SPACE;
+                        input = SPACE;
+                        break;
                     case SDLK_ESCAPE:
-                        return ESCAPE;
+                        input = ESCAPE;
+                        break;
                     case SDLK_r:
-                        return RESET;
+                        input = RESET;
+                        break;
                     case SDLK_m:
-                        return MENU;
+                        input = MENU;
+                        break;
                     case SDLK_n:
-                        return N;
+                        input = N;
+                        break;
                     case SDLK_p:
-                        return P;
+                        input = P;
+                        break;
                     case SDLK_i:
-                        return I;
+                        input = I;
+                        break;
                     case SDLK_o:
-                        return O;
+                        input = O;
+                        break;
                 }
         }
     }
-    return NIL;
+    return input;
 }
 
 void Arcade::SDL::refresh()

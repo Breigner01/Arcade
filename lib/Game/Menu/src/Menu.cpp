@@ -29,7 +29,7 @@ Arcade::Menu::Menu() : m_score(0), m_iterator(0)
         }
     }
 
-    m_menu_title = std::make_shared<Arcade::Text>("Arcade - Menu", WHITE, 5, 0);
+    m_menu_title = std::make_shared<Arcade::Text>("Arcade - Menu", WHITE, 12, 1);
     m_selector = std::make_shared<Arcade::Tile>("assets/Menu/selector.png", '>', WHITE, 3, 3);
 
     m_menu_enter = std::make_shared<Arcade::Text>("Select a game and press ENTER !", WHITE, 10, 20);
