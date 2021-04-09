@@ -1,6 +1,7 @@
 #include "NCURSES.hpp"
 #include <ncurses.h>
 #include <map>
+#include <cmath>
 
 extern "C" Arcade::NCURSES *Arcade::entry_point()
 {
@@ -102,11 +103,11 @@ void Arcade::NCURSES::draw(std::shared_ptr<Arcade::IObject> object)
         tmp[1] = '\0';
 
         if (has_colors() == FALSE) {
-            mvprintw(tile->getPosition().second, tile->getPosition().first, tmp);
+            mvprintw(round(tile->getPosition().second), round(tile->getPosition().first), tmp);
             return;
         }
         attron(COLOR_PAIR(colormap[tile->getColor()]));
-        mvprintw(tile->getPosition().second, tile->getPosition().first, tmp);
+        mvprintw(round(tile->getPosition().second), round(tile->getPosition().first), tmp);
         attroff(COLOR_PAIR(tile->getColor()));
     }
     else if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr) {
@@ -116,22 +117,22 @@ void Arcade::NCURSES::draw(std::shared_ptr<Arcade::IObject> object)
         tmp[1] = '\0';
 
         if (has_colors() == FALSE) {
-            mvprintw(tile->getPosition().second, tile->getPosition().first, tmp);
+            mvprintw(round(tile->getPosition().second), round(tile->getPosition().first), tmp);
             return;
         }
         attron(COLOR_PAIR(colormap[tile->getColor()]));
-        mvprintw(tile->getPosition().second, tile->getPosition().first, tmp);
+        mvprintw(round(tile->getPosition().second), round(tile->getPosition().first), tmp);
         attroff(COLOR_PAIR(tile->getColor()));
     }
     else if (dynamic_cast<Arcade::Text*>(object.get()) != nullptr) {
         auto text = dynamic_cast<Arcade::Text*>(object.get());
 
         if (has_colors() == FALSE) {
-            mvprintw(text->getPosition().second, text->getPosition().first, text->getText().c_str());
+            mvprintw(round(text->getPosition().second), round(text->getPosition().first), text->getText().c_str());
             return;
         }
         attron(COLOR_PAIR(colormap[text->getColor()]));
-        mvprintw(text->getPosition().second, text->getPosition().first, text->getText().c_str());
+        mvprintw(round(text->getPosition().second), round(text->getPosition().first), text->getText().c_str());
         attroff(COLOR_PAIR(text->getColor()));
     }
 }

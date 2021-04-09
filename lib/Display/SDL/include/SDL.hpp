@@ -17,7 +17,7 @@ namespace Arcade
         SDLTextureObj(const std::string &path, SDL_Renderer *renderer);
         SDLTextureObj(Arcade::Text text, TTF_Font *font, SDL_Renderer *renderer);
         ~SDLTextureObj();
-        void setPosition(unsigned int x, unsigned int y);
+        void setPosition(float x, float y);
     };
 
     class SDL : public IDisplay
