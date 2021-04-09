@@ -73,31 +73,11 @@ void Arcade::SFML::clear()
 
 void Arcade::SFML::draw(std::shared_ptr<Arcade::IObject> object)
 {
-    if (dynamic_cast<Arcade::DynamicTile*>(object.get()) != nullptr) {
-        auto tile = dynamic_cast<Arcade::DynamicTile *>(object.get())->getActualTile();
-        std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
-        std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
-        if (!texture->loadFromFile(tile->getPath()))
-            throw Arcade::exception("SFML Failed to load a texture");
-        sprite->setTexture(*texture, true);
-        sprite->setPosition((tile->getPosition().first * Arcade::getTileSize()) + Arcade::getTileSize() / 2, (tile->getPosition().second * Arcade::getTileSize()) + Arcade::getTileSize() / 2);
-        sprite->setOrigin(Arcade::getTileSize() / 2, Arcade::getTileSize() / 2);
-        sprite->setRotation(tile->getRotation());
-        m_window.draw(*sprite);
-    }
-    else if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr) {
-        auto tile = dynamic_cast<Arcade::Tile *>(object.get());
-        std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
-        std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
-        if (!texture->loadFromFile(tile->getPath()))
-            throw Arcade::exception("SFML Failed to load a texture");
-        sprite->setTexture(*texture, true);
-        sprite->setPosition((tile->getPosition().first * Arcade::getTileSize()) + Arcade::getTileSize() / 2, (tile->getPosition().second * Arcade::getTileSize()) + Arcade::getTileSize() / 2);
-        sprite->setOrigin(Arcade::getTileSize() / 2, Arcade::getTileSize() / 2);
-        sprite->setRotation(tile->getRotation());
+    if (dynamic_cast<Arcade::DynamicTile*>(object.get()) != nullptr)
+        drawTile(dynamic_cast<Arcade::DynamicTile *>(object.get())->getActualTile());
+    else if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr)
+        drawTile(dynamic_cast<Arcade::Tile*>(object.get()));
 
-        m_window.draw(*sprite);
-    }
     else if (dynamic_cast<Arcade::Text*>(object.get()) != nullptr) {
         auto text = dynamic_cast<Arcade::Text *>(object.get());
         std::shared_ptr<sf::Text> txtobj = std::make_shared<sf::Text>();
@@ -110,6 +90,21 @@ void Arcade::SFML::draw(std::shared_ptr<Arcade::IObject> object)
     }
     else if (dynamic_cast<Arcade::Sound*>(object.get()) != nullptr)
         playSound(dynamic_cast<Arcade::Sound*>(object.get()));
+}
+
+void Arcade::SFML::drawTile(Arcade::Tile *tile)
+{
+    if (m_texture_map.find(tile->getPath()) == m_texture_map.end()) {
+        m_texture_map[tile->getPath()] = std::make_shared<sf::Texture>();
+        if (!m_texture_map[tile->getPath()]->loadFromFile(tile->getPath()))
+            throw Arcade::MissingAsset("SFML Failed to load a texture");
+    }
+    std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>(*m_texture_map[tile->getPath()]);
+    sprite->setPosition((tile->getPosition().first * Arcade::getTileSize()) + Arcade::getTileSize() / 2, (tile->getPosition().second * Arcade::getTileSize()) + Arcade::getTileSize() / 2);
+    sprite->setOrigin(Arcade::getTileSize() / 2, Arcade::getTileSize() / 2);
+    sprite->setRotation(tile->getRotation());
+
+    m_window.draw(*sprite);
 }
 
 void Arcade::SFML::playSound(Arcade::Sound *sound)

@@ -94,26 +94,26 @@ void Arcade::SDL::clear()
 
 void Arcade::SDL::draw(std::shared_ptr<Arcade::IObject> object)
 {
-    if (dynamic_cast<Arcade::DynamicTile*>(object.get()) != nullptr) {
-        auto tile = dynamic_cast<Arcade::DynamicTile *>(object.get())->getActualTile();
-        std::shared_ptr<SDLTextureObj> tmpTexture = std::make_shared<SDLTextureObj>(tile->getPath(), m_renderer);
-        tmpTexture->setPosition(tile->getPosition().first, tile->getPosition().second);
-        SDL_RenderCopyEx(m_renderer, tmpTexture->m_img, nullptr, &tmpTexture->m_rect, tile->getRotation(), &tmpTexture->m_center, static_cast<SDL_RendererFlip>(SDL_FLIP_NONE));
-    }
-    else if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr) {
-        auto tile = dynamic_cast<Arcade::Tile *>(object.get());
-        std::shared_ptr<SDLTextureObj> tmpTexture = std::make_shared<SDLTextureObj>(tile->getPath(), m_renderer);
-        tmpTexture->setPosition(tile->getPosition().first, tile->getPosition().second);
-        SDL_RenderCopyEx(m_renderer, tmpTexture->m_img, nullptr, &tmpTexture->m_rect, tile->getRotation(), &tmpTexture->m_center, static_cast<SDL_RendererFlip>(SDL_FLIP_NONE));
-    }
+    if (dynamic_cast<Arcade::DynamicTile*>(object.get()) != nullptr)
+        drawTile(dynamic_cast<Arcade::DynamicTile *>(object.get())->getActualTile());
+    else if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr)
+        drawTile(dynamic_cast<Arcade::Tile *>(object.get()));
     else if (dynamic_cast<Arcade::Text*>(object.get()) != nullptr) {
         auto text = dynamic_cast<Arcade::Text *>(object.get());
         std::shared_ptr<SDLTextureObj> tmpTexture = std::make_shared<SDLTextureObj>(*text, m_font, m_renderer);
         tmpTexture->setPosition(text->getPosition().first, text->getPosition().second);
-        SDL_RenderCopy(m_renderer, tmpTexture->m_img, NULL, &tmpTexture->m_rect);
+        SDL_RenderCopy(m_renderer, tmpTexture->m_img, nullptr, &tmpTexture->m_rect);
     }
     else if (dynamic_cast<Arcade::Sound*>(object.get()) != nullptr)
         playSound(dynamic_cast<Arcade::Sound*>(object.get()));
+}
+
+void Arcade::SDL::drawTile(Arcade::Tile *tile)
+{
+    if (m_texture_map.find(tile->getPath()) == m_texture_map.end())
+        m_texture_map[tile->getPath()] = std::make_shared<SDLTextureObj>(tile->getPath(), m_renderer);
+    m_texture_map[tile->getPath()]->setPosition(tile->getPosition().first, tile->getPosition().second);
+    SDL_RenderCopyEx(m_renderer, m_texture_map[tile->getPath()]->m_img, nullptr, &m_texture_map[tile->getPath()]->m_rect, tile->getRotation(), &m_texture_map[tile->getPath()]->m_center, static_cast<SDL_RendererFlip>(SDL_FLIP_NONE));
 }
 
 void Arcade::SDL::playSound(Arcade::Sound *sound)

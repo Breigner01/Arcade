@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IDisplay.hpp"
+#include <map>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -26,6 +27,7 @@ namespace Arcade
         SDL_Window *m_window;
         SDL_Renderer *m_renderer;
         TTF_Font *m_font;
+        std::map<std::string, std::shared_ptr<SDLTextureObj>> m_texture_map;
     public:
         SDL();
         ~SDL();
@@ -33,6 +35,7 @@ namespace Arcade
         void clear();
         void refresh();
         void draw(std::shared_ptr<Arcade::IObject> object);
+        void drawTile(Arcade::Tile *tile);
         void playSound(Arcade::Sound *sound);
     };
     extern "C" SDL *entry_point();
