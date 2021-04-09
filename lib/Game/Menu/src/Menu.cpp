@@ -23,7 +23,7 @@ Arcade::Menu::Menu() : m_score(0), m_iterator(0)
                 other.pop_back();
                 other.pop_back();
                 other.pop_back();
-               // m_text_list.push_back(std::make_shared<Arcade::Text>(other, WHITE, 5, pos));
+                m_text_list.push_back(std::make_shared<Arcade::Text>("", WHITE, 5, pos));
                 pos += 2;
             }
         }
@@ -45,13 +45,13 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Menu::loop(Arcade::Input e
 {
     if (ev == RIGHT) {
         m_poster->setPath("assets/Menu/pacman_affiche.png");
-       // m_poster->setSymbol('P');
+        m_poster->setSymbol('P');
         m_score--;
         if (m_score < 0)
             m_score = static_cast<int>(m_text_list.size()) - 1;
     }
     else if (ev == LEFT) {
-       // m_poster->setSymbol('N');
+        m_poster->setSymbol('N');
         m_poster->setPath("assets/Menu/nibbler_affiche.png");
         m_score++;
         if (m_score >= static_cast<int>(m_text_list.size()))
