@@ -69,7 +69,7 @@ void HighScore::setNewScore(std::string score)
 {
     m_content.push_back(score);
     std::sort(std::begin(m_content), std::end(m_content),
-              [] (const std::string& lhs, const std::string& rhs) {
-                return std::stoi(lhs) > std::stoi(rhs);
+              [&] (const std::string& lhs, const std::string& rhs) {
+                return std::stoi(string_to_vector(lhs, ' ')[0]) > std::stoi(string_to_vector(rhs, ' ')[0]);
               });
 }
