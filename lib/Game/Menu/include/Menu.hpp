@@ -12,7 +12,8 @@ private:
 
     int m_score;
     unsigned int m_iterator;
-    std::shared_ptr<Arcade::Tile> m_selector;
+    std::shared_ptr<Arcade::Tile> m_arcade;
+    std::shared_ptr<Arcade::Tile> m_poster;
     std::shared_ptr<Arcade::Text> m_menu_title;
     std::shared_ptr<Arcade::Text> m_menu_enter;
     std::shared_ptr<Arcade::Text> m_menu_exit;
