@@ -37,4 +37,6 @@ Arcade::Parsing::Parsing(int ac, char **av) : m_GameLibsIterator(0), m_GraphLibs
     std::cout << "\nEnter your name :" << std::endl;
     std::getline(std::cin, m_name);
     m_GraphLibsIterator = std::distance(m_GraphLibs.begin(), std::find(m_GraphLibs.begin(), m_GraphLibs.end(), av[1]));
+    try {DyLib<Arcade::IDisplay> tmp("./lib/arcade_sdl2.so");}
+    catch (...) {}
 }
