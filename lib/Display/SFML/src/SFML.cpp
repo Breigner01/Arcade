@@ -16,8 +16,8 @@ std::map<Arcade::Color, sf::Color> colormap {
         {Arcade::Color::MAGENTA, sf::Color::Magenta},
         {Arcade::Color::CYAN, sf::Color::Cyan},
         {Arcade::Color::WHITE, sf::Color::White},
-        {Arcade::Color::ORANGE, sf::Color::White},
-        {Arcade::Color::PINK, sf::Color::White},
+        {Arcade::Color::ORANGE, {255, 140, 0}},
+        {Arcade::Color::PINK, {255, 105, 180}},
 };
 
 Arcade::SFML::SFML()
@@ -122,7 +122,7 @@ void Arcade::SFML::drawText(Arcade::Text *text)
     txtobj->setString(text->getText());
     txtobj->setPosition(text->getPosition().first * Arcade::getTileSize(), text->getPosition().second * Arcade::getTileSize());
     txtobj->setCharacterSize(30);
-    txtobj->setColor(colormap[text->getColor()]);
+    txtobj->setFillColor(colormap[text->getColor()]);
 
     m_window.draw(*txtobj);
 }
