@@ -12,7 +12,7 @@ Arcade::SDL::SDL() : m_window(nullptr), m_renderer(nullptr), m_font(nullptr)
         throw Arcade::exception("Error SDL_Init : " + std::string(SDL_GetError()));
 
     m_window = SDL_CreateWindow("Arcade - SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                1600, 950, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+                                1600, 1000, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     if (m_window == NULL)
         throw Arcade::exception("Error SDL_CreateWindow : " + std::string(SDL_GetError()));
 

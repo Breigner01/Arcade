@@ -25,6 +25,8 @@ private:
     std::vector<std::shared_ptr<Arcade::Tile>> m_buf_snake{};
     std::vector<std::shared_ptr<Arcade::Tile>> m_buf_apple{};
 
+    std::shared_ptr<Arcade::Sound> m_eat_sound{};
+
     std::string m_map{};
     unsigned int m_nbLines{};
     unsigned int m_lineLen{};

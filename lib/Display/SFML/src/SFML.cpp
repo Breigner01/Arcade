@@ -9,7 +9,7 @@ extern "C" Arcade::SFML *Arcade::entry_point()
 
 Arcade::SFML::SFML()
 {
-    m_window.create(sf::VideoMode(1600, 950), "Arcade - SFML");
+    m_window.create(sf::VideoMode(1600, 1000), "Arcade - SFML");
     m_window.setFramerateLimit(60);
     m_window.setKeyRepeatEnabled(true);
     if (!m_font.loadFromFile("assets/font.ttf"))
@@ -27,9 +27,13 @@ Arcade::Input Arcade::SFML::event()
     Arcade::Input input = NIL;
 
     while (m_window.pollEvent(ev)) {
-        if (ev.type == sf::Event::Closed)
+        if (ev.type == sf::Event::Resized) {
+            sf::FloatRect visibleArea(0, 0, ev.size.width, ev.size.height);
+            m_window.setView(sf::View(visibleArea));
+        }
+        else if (ev.type == sf::Event::Closed)
             input = ESCAPE;
-        if (ev.type == sf::Event::KeyPressed) {
+        else if (ev.type == sf::Event::KeyPressed) {
             if (ev.key.code == sf::Keyboard::Up)
                 input = UP;
             else if (ev.key.code == sf::Keyboard::Down)

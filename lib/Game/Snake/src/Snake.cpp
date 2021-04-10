@@ -13,6 +13,7 @@ extern "C" Arcade::Snake *Arcade::entry_point()
 Arcade::Snake::Snake() : m_dirX(-1), m_dirY(0), m_rotation(90), m_gen(m_rd())
 {
     Arcade::setTileSize(50);
+    m_eat_sound = std::make_shared<Arcade::Sound>("assets/Snake/eat.wav");
     std::ifstream stream("assets/Snake/map.txt");
     std::ostringstream content;
 
@@ -57,6 +58,7 @@ void Arcade::Snake::reset()
 
 int Arcade::Snake::movements()
 {
+    int ret = 0;
     unsigned int x = m_x + m_dirX;
     unsigned int y = m_y + m_dirY;
 
@@ -67,6 +69,7 @@ int Arcade::Snake::movements()
     if (m_map[pos] == m_wall || m_map[pos] == m_snake)
         return (1);
     else if (m_map[pos] == m_apple) {
+        ret = 2;
         m_score += 1;
         int i = 0;
         for (auto &apple : m_buf_apple) {
@@ -92,7 +95,7 @@ int Arcade::Snake::movements()
     m_map[computeIndex(x, y, m_lineLen)] = 'N';
     m_x = x;
     m_y = y;
-    return (0);
+    return ret;
 }
 
 void Arcade::Snake::generateNewApple()
@@ -150,6 +153,8 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input 
 
     std::vector<std::shared_ptr<Arcade::IObject>> buf{};
     buf.reserve(m_buf_snake.size() + m_buf_apple.size() + m_buf_wall.size());
+    if (ret == 2)
+        buf.push_back(m_eat_sound);
     for (auto &elem : m_buf_wall)
         buf.push_back(elem);
     for (auto &elem : m_buf_snake)
