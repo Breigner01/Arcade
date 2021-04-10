@@ -35,6 +35,7 @@ HighScore::HighScore(const std::string &file)
 
 void HighScore::load(const std::string &file)
 {
+    m_content.clear();
     m_file = "./scoreboard/";
     m_file += file.substr(file.find("arcade"));
     m_file.pop_back();

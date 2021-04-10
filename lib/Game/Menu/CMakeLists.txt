@@ -5,7 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(BUILD_SHARED_LIBS ON)
 
 add_library(menu SHARED
-        src/Menu.cpp)
+        src/Menu.cpp
+        ../src/HighScore.cpp)
 
 set_target_properties(menu PROPERTIES PREFIX "arcade_")
 

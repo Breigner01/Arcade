@@ -8,7 +8,7 @@ namespace Arcade {
 /**
  *  Exception class for Arcade
  */
-class exception : std::exception {
+class exception : public std::exception {
 
 protected:
 
@@ -24,7 +24,7 @@ public:
  *  Exception thrown when a missing asset is detected at runtime. 
  *  Inherits from Arcade::exception
  */
-class MissingAsset : exception {
+class MissingAsset : public exception {
 
 public:
 
@@ -35,7 +35,7 @@ public:
  *  Exception thrown when an error occured when loading a dynamic library at runtime. 
  *  Inherits from Arcade::exception
  */
-class DyLibException : exception {
+class DyLibException : public exception {
 
 public:
 

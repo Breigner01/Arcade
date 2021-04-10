@@ -1,6 +1,7 @@
 #include <iostream>
 #include <filesystem>
 #include <map>
+#include <vector>
 #include "Menu.hpp"
 #include "Exception.hpp"
 #include "Parsing.hpp"
@@ -44,6 +45,7 @@ Arcade::Menu::Menu() : m_score(0), m_iterator(0)
     m_menu_exit = std::make_shared<Arcade::Text>("Press ECHAP to exit Arcade", WHITE, 13, 31);
 
     m_sou = std::make_shared<Arcade::Sound>("assets/Menu/move_menu.wav");
+    m_high_scores.load(m_GameLibs[0]);
 }
 
 void Arcade::Menu::reset()
@@ -58,6 +60,7 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Menu::loop(Arcade::Input e
         if (m_score < 0)
             m_score = static_cast<int>(m_text_list.size()) - 1;
         m_poster->setPath(m_menu_displayer_map[m_GameLibs[m_score]]);
+        m_high_scores.load(m_GameLibs[m_score]);
         buf.push_back(m_sou);
     }
     else if (ev == RIGHT or ev == DOWN) {
@@ -65,8 +68,13 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Menu::loop(Arcade::Input e
         if (m_score >= static_cast<int>(m_text_list.size()))
             m_score = 0;
         m_poster->setPath(m_menu_displayer_map[m_GameLibs[m_score]]);
+        m_high_scores.load(m_GameLibs[m_score]);
         buf.push_back(m_sou);
     }
+    buf.push_back(std::make_shared<Arcade::Text>("HIGHSCORE :", WHITE, 0, 0));
+    std::vector<std::string> tmp = m_high_scores.getContent();
+    for (size_t i = 0; i < 3 and i < tmp.size(); i++)
+        buf.push_back(std::make_shared<Arcade::Text>(tmp[i], WHITE, 0, i + 1));
     buf.push_back(m_text_list[m_score]);
     buf.push_back(m_arcade);
     buf.push_back(m_poster);

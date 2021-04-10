@@ -3,6 +3,7 @@
 #include <memory>
 #include <random>
 #include "IGame.hpp"
+#include "HighScore.hpp"
 
 namespace Arcade {
 
@@ -20,6 +21,7 @@ private:
     std::vector<std::shared_ptr<Arcade::Text> > m_text_list {};
     std::vector<std::string> m_GameLibs {};
     std::shared_ptr<Arcade::Sound> m_sou {};
+    HighScore m_high_scores {};
 
 public:
 
