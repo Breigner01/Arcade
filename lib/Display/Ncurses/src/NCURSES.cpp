@@ -96,43 +96,36 @@ void Arcade::NCURSES::clear()
 
 void Arcade::NCURSES::draw(std::shared_ptr<Arcade::IObject> object)
 {
-    if (dynamic_cast<Arcade::DynamicTile*>(object.get()) != nullptr) {
-        auto tile = dynamic_cast<Arcade::DynamicTile*>(object.get())->getActualTile();
-        char tmp[2];
-        tmp[0] = static_cast<char>(tile->getSymbol());
-        tmp[1] = '\0';
+    if (dynamic_cast<Arcade::DynamicTile*>(object.get()) != nullptr)
+        drawTile(dynamic_cast<Arcade::DynamicTile*>(object.get())->getActualTile());
+    else if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr)
+        drawTile(dynamic_cast<Arcade::Tile*>(object.get()));
+    else if (dynamic_cast<Arcade::Text*>(object.get()) != nullptr)
+        drawText(dynamic_cast<Arcade::Text*>(object.get()));
+}
 
-        if (has_colors() == FALSE) {
-            mvprintw(round(tile->getPosition().second), round(tile->getPosition().first), tmp);
-            return;
-        }
-        attron(COLOR_PAIR(colormap[tile->getColor()]));
+void Arcade::NCURSES::drawTile(Arcade::Tile *tile)
+{
+    char tmp[2];
+    tmp[0] = static_cast<char>(tile->getSymbol());
+    tmp[1] = '\0';
+
+    if (has_colors() == FALSE) {
         mvprintw(round(tile->getPosition().second), round(tile->getPosition().first), tmp);
-        attroff(COLOR_PAIR(tile->getColor()));
+        return;
     }
-    else if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr) {
-        auto tile = dynamic_cast<Arcade::Tile*>(object.get());
-        char tmp[2];
-        tmp[0] = static_cast<char>(tile->getSymbol());
-        tmp[1] = '\0';
+    attron(COLOR_PAIR(colormap[tile->getColor()]));
+    mvprintw(round(tile->getPosition().second), round(tile->getPosition().first), tmp);
+    attroff(COLOR_PAIR(tile->getColor()));
+}
 
-        if (has_colors() == FALSE) {
-            mvprintw(round(tile->getPosition().second), round(tile->getPosition().first), tmp);
-            return;
-        }
-        attron(COLOR_PAIR(colormap[tile->getColor()]));
-        mvprintw(round(tile->getPosition().second), round(tile->getPosition().first), tmp);
-        attroff(COLOR_PAIR(tile->getColor()));
-    }
-    else if (dynamic_cast<Arcade::Text*>(object.get()) != nullptr) {
-        auto text = dynamic_cast<Arcade::Text*>(object.get());
-
-        if (has_colors() == FALSE) {
-            mvprintw(round(text->getPosition().second), round(text->getPosition().first), text->getText().c_str());
-            return;
-        }
-        attron(COLOR_PAIR(colormap[text->getColor()]));
+void Arcade::NCURSES::drawText(Arcade::Text *text)
+{
+    if (has_colors() == FALSE) {
         mvprintw(round(text->getPosition().second), round(text->getPosition().first), text->getText().c_str());
-        attroff(COLOR_PAIR(text->getColor()));
+        return;
     }
+    attron(COLOR_PAIR(colormap[text->getColor()]));
+    mvprintw(round(text->getPosition().second), round(text->getPosition().first), text->getText().c_str());
+    attroff(COLOR_PAIR(text->getColor()));
 }

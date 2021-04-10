@@ -6,6 +6,19 @@ extern "C" Arcade::SDL *Arcade::entry_point()
     return new Arcade::SDL;
 }
 
+std::map<Arcade::Color, SDL_Color> colormap {
+        {Arcade::Color::BLACK, {0, 0, 0, 0}},
+        {Arcade::Color::RED, {255, 0, 0, 0}},
+        {Arcade::Color::GREEN, {0, 255, 0, 0}},
+        {Arcade::Color::YELLOW, {255, 255, 0, 0}},
+        {Arcade::Color::BLUE, {0, 0, 255, 0}},
+        {Arcade::Color::MAGENTA, {255, 0, 255, 0}},
+        {Arcade::Color::CYAN, {0, 255, 255, 0}},
+        {Arcade::Color::WHITE, {255, 255, 255, 0}},
+        {Arcade::Color::ORANGE, {255, 140, 0, 0}},
+        {Arcade::Color::PINK, {255, 105, 180, 0}},
+};
+
 Arcade::SDL::SDL() : m_window(nullptr), m_renderer(nullptr), m_font(nullptr)
 {
     if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
@@ -99,12 +112,8 @@ void Arcade::SDL::draw(std::shared_ptr<Arcade::IObject> object)
         drawTile(dynamic_cast<Arcade::DynamicTile *>(object.get())->getActualTile());
     else if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr)
         drawTile(dynamic_cast<Arcade::Tile *>(object.get()));
-    else if (dynamic_cast<Arcade::Text*>(object.get()) != nullptr) {
-        auto text = dynamic_cast<Arcade::Text *>(object.get());
-        std::shared_ptr<SDLTextureObj> tmpTexture = std::make_shared<SDLTextureObj>(*text, m_font, m_renderer);
-        tmpTexture->setPosition(text->getPosition().first, text->getPosition().second);
-        SDL_RenderCopy(m_renderer, tmpTexture->m_img, nullptr, &tmpTexture->m_rect);
-    }
+    else if (dynamic_cast<Arcade::Text*>(object.get()) != nullptr)
+        drawText(dynamic_cast<Arcade::Text *>(object.get()));
     else if (dynamic_cast<Arcade::Sound*>(object.get()) != nullptr)
         playSound(dynamic_cast<Arcade::Sound*>(object.get()));
 }
@@ -115,6 +124,13 @@ void Arcade::SDL::drawTile(Arcade::Tile *tile)
         m_texture_map[tile->getPath()] = std::make_shared<SDLTextureObj>(tile->getPath(), m_renderer);
     m_texture_map[tile->getPath()]->setPosition(tile->getPosition().first, tile->getPosition().second);
     SDL_RenderCopyEx(m_renderer, m_texture_map[tile->getPath()]->m_img, nullptr, &m_texture_map[tile->getPath()]->m_rect, tile->getRotation(), &m_texture_map[tile->getPath()]->m_center, static_cast<SDL_RendererFlip>(SDL_FLIP_NONE));
+}
+
+void Arcade::SDL::drawText(Arcade::Text *text)
+{
+    std::shared_ptr<SDLTextureObj> tmpTexture = std::make_shared<SDLTextureObj>(*text, m_font, m_renderer);
+    tmpTexture->setPosition(text->getPosition().first, text->getPosition().second);
+    SDL_RenderCopy(m_renderer, tmpTexture->m_img, nullptr, &tmpTexture->m_rect);
 }
 
 void Arcade::SDL::playSound(Arcade::Sound *sound)
@@ -140,7 +156,7 @@ Arcade::SDLTextureObj::SDLTextureObj(const std::string &path, SDL_Renderer *rend
 Arcade::SDLTextureObj::SDLTextureObj(Arcade::Text text, TTF_Font *font, SDL_Renderer *renderer)
     : m_img(NULL)
 {
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.getText().c_str(), { 255, 255, 255, 0 });
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.getText().c_str(), colormap[text.getColor()]);
     m_img = SDL_CreateTextureFromSurface(renderer, textSurface);
     int w, h;
     SDL_QueryTexture(m_img, NULL, NULL, &w, &h);

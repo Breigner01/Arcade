@@ -69,6 +69,7 @@ namespace Arcade
         void refresh();
         void draw(std::shared_ptr<Arcade::IObject> object);
         void drawTile(Arcade::Tile *tile);
+        void drawText(Arcade::Text *text);
         void playSound(Arcade::Sound *sound);
     };
     extern "C" SDL *entry_point();

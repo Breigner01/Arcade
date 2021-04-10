@@ -7,6 +7,19 @@ extern "C" Arcade::SFML *Arcade::entry_point()
     return new Arcade::SFML;
 }
 
+std::map<Arcade::Color, sf::Color> colormap {
+        {Arcade::Color::BLACK, sf::Color::Black},
+        {Arcade::Color::RED, sf::Color::Red},
+        {Arcade::Color::GREEN, sf::Color::Green},
+        {Arcade::Color::YELLOW, sf::Color::Yellow},
+        {Arcade::Color::BLUE, sf::Color::Blue},
+        {Arcade::Color::MAGENTA, sf::Color::Magenta},
+        {Arcade::Color::CYAN, sf::Color::Cyan},
+        {Arcade::Color::WHITE, sf::Color::White},
+        {Arcade::Color::ORANGE, sf::Color::White},
+        {Arcade::Color::PINK, sf::Color::White},
+};
+
 Arcade::SFML::SFML()
 {
     m_window.create(sf::VideoMode(1600, 1000), "Arcade - SFML");
@@ -81,17 +94,8 @@ void Arcade::SFML::draw(std::shared_ptr<Arcade::IObject> object)
         drawTile(dynamic_cast<Arcade::DynamicTile *>(object.get())->getActualTile());
     else if (dynamic_cast<Arcade::Tile*>(object.get()) != nullptr)
         drawTile(dynamic_cast<Arcade::Tile*>(object.get()));
-
-    else if (dynamic_cast<Arcade::Text*>(object.get()) != nullptr) {
-        auto text = dynamic_cast<Arcade::Text *>(object.get());
-        std::shared_ptr<sf::Text> txtobj = std::make_shared<sf::Text>();
-        txtobj->setFont(m_font);
-        txtobj->setString(text->getText());
-        txtobj->setPosition(text->getPosition().first * Arcade::getTileSize(), text->getPosition().second * Arcade::getTileSize());
-        txtobj->setCharacterSize(30);
-
-        m_window.draw(*txtobj);
-    }
+    else if (dynamic_cast<Arcade::Text*>(object.get()) != nullptr)
+        drawText(dynamic_cast<Arcade::Text *>(object.get()));
     else if (dynamic_cast<Arcade::Sound*>(object.get()) != nullptr)
         playSound(dynamic_cast<Arcade::Sound*>(object.get()));
 }
@@ -109,6 +113,18 @@ void Arcade::SFML::drawTile(Arcade::Tile *tile)
     sprite->setRotation(tile->getRotation());
 
     m_window.draw(*sprite);
+}
+
+void Arcade::SFML::drawText(Arcade::Text *text)
+{
+    std::shared_ptr<sf::Text> txtobj = std::make_shared<sf::Text>();
+    txtobj->setFont(m_font);
+    txtobj->setString(text->getText());
+    txtobj->setPosition(text->getPosition().first * Arcade::getTileSize(), text->getPosition().second * Arcade::getTileSize());
+    txtobj->setCharacterSize(30);
+    txtobj->setColor(colormap[text->getColor()]);
+
+    m_window.draw(*txtobj);
 }
 
 void Arcade::SFML::playSound(Arcade::Sound *sound)
