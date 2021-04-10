@@ -33,14 +33,15 @@ public:
         m_handle = dlopen(path.c_str(), RTLD_NOW | RTLD_LOCAL);
         if (!m_handle)
             throw Arcade::exception(dlerror());
-        void *t = dlsym(m_handle, "entry_point");
-        if (!t)
+        void *sym = dlsym(m_handle, "entry_point");
+        if (!sym)
             throw Arcade::exception(dlerror());
-        m_lib = ((T *(*)()) t)();
+        m_lib = reinterpret_cast<T *(*)()>(sym)();
     }
     void releaseLib()
     {
         delete m_lib;
+        m_lib = nullptr;
         if (m_handle)
             dlclose(m_handle);
         m_handle = nullptr;
