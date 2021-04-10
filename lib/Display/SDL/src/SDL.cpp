@@ -32,6 +32,8 @@ Arcade::SDL::SDL() : m_window(nullptr), m_renderer(nullptr), m_font(nullptr)
 
 Arcade::SDL::~SDL()
 {
+    m_texture_map.clear();
+    m_sound_map.clear();
     SDL_DestroyRenderer(m_renderer);
     SDL_DestroyWindow(m_window);
     TTF_CloseFont(m_font);
