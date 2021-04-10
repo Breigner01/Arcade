@@ -25,6 +25,7 @@ public:
     void writeNewScore();
     void setNewScore(std::string score);
     void dump();
+    std::vector<std::string> getContent() { return m_content; }
 };
 
 
