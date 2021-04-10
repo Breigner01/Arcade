@@ -12,10 +12,10 @@ namespace Arcade
     class SFML : public IDisplay
     {
     private:
-        sf::RenderWindow m_window;
-        sf::Font m_font;
-        std::map<std::string, std::shared_ptr<sf::Texture>> m_texture_map;
-        std::map<std::string, std::pair<std::shared_ptr<sf::SoundBuffer>, std::shared_ptr<sf::Sound>>> m_sound_map;
+        sf::RenderWindow m_window {};
+        sf::Font m_font {};
+        std::map<std::string, std::shared_ptr<sf::Texture>> m_texture_map {};
+        std::map<std::string, std::pair<std::shared_ptr<sf::SoundBuffer>, std::shared_ptr<sf::Sound>>> m_sound_map {};
     public:
         SFML();
         ~SFML();

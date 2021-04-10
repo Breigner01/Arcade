@@ -28,7 +28,7 @@ bool Arcade::Core::menu()
     }
 }
 
-Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av)
+Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av), m_game(), m_display()
 {
     m_display.loadLib(m_GraphLibs[m_GraphLibsIterator]);
     if (menu() == false)

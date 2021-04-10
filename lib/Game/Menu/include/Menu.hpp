@@ -12,14 +12,14 @@ private:
 
     int m_score;
     unsigned int m_iterator;
-    std::shared_ptr<Arcade::Tile> m_arcade;
-    std::shared_ptr<Arcade::Tile> m_poster;
-    std::shared_ptr<Arcade::Text> m_menu_title;
-    std::shared_ptr<Arcade::Text> m_menu_enter;
-    std::shared_ptr<Arcade::Text> m_menu_exit;
-    std::vector<std::shared_ptr<Arcade::Text> > m_text_list;
-    std::vector<std::string> m_GameLibs;
-    std::shared_ptr<Arcade::Sound> m_sou;
+    std::shared_ptr<Arcade::Tile> m_arcade {};
+    std::shared_ptr<Arcade::Tile> m_poster {};
+    std::shared_ptr<Arcade::Text> m_menu_title {};
+    std::shared_ptr<Arcade::Text> m_menu_enter {};
+    std::shared_ptr<Arcade::Text> m_menu_exit {};
+    std::vector<std::shared_ptr<Arcade::Text> > m_text_list {};
+    std::vector<std::string> m_GameLibs {};
+    std::shared_ptr<Arcade::Sound> m_sou {};
 
 public:
 

@@ -32,9 +32,9 @@ namespace Arcade
     class Parsing
     {
     protected:
-        std::vector<std::string> m_GameLibs;
+        std::vector<std::string> m_GameLibs {};
         int m_GameLibsIterator;
-        std::vector<std::string> m_GraphLibs;
+        std::vector<std::string> m_GraphLibs {};
         int m_GraphLibsIterator;
         std::string m_name;
 

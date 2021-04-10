@@ -8,7 +8,7 @@
 #include "IDisplay.hpp"
 #include "IGame.hpp"
 
-Arcade::Parsing::Parsing(int ac, char **av) : m_GameLibsIterator(0), m_GraphLibsIterator(0)
+Arcade::Parsing::Parsing(int ac, char **av) : m_GameLibsIterator(0), m_GraphLibsIterator(0), m_name("unknow")
 {
     if (ac != 2)
         throw Arcade::exception("USAGE : " + std::string(av[0]) + " lib.so");

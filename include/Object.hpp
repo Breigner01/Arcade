@@ -57,7 +57,7 @@ namespace Arcade
     class DynamicTile : public IObject
     {
     private:
-        std::vector<Arcade::Tile> m_tiles;
+        std::vector<Arcade::Tile> m_tiles {};
         size_t m_iterator;
         size_t m_recurence_max;
         size_t m_recurence_actual;
