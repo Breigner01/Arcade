@@ -1,5 +1,4 @@
 #include "SDL.hpp"
-#include "Exception.hpp"
 #include <memory>
 
 extern "C" Arcade::SDL *Arcade::entry_point()
@@ -118,11 +117,9 @@ void Arcade::SDL::drawTile(Arcade::Tile *tile)
 
 void Arcade::SDL::playSound(Arcade::Sound *sound)
 {
-    auto m_music = Mix_LoadMUS(sound->getSound().c_str());
-    if (!m_music)
-        throw Arcade::exception("Error Mix_LoadMUS");
-    Mix_PlayMusic(m_music, 1);
-    Mix_FreeMusic(m_music);
+    if (m_sound_map.find(sound->getSound()) == m_sound_map.end())
+        m_sound_map[sound->getSound()] = std::make_shared<SDLSoundObj>(sound->getSound());
+    m_sound_map[sound->getSound()]->play();
 }
 
 Arcade::SDLTextureObj::SDLTextureObj(const std::string &path, SDL_Renderer *renderer)

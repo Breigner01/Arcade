@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IDisplay.hpp"
+#include "Exception.hpp"
 #include <map>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -21,6 +22,26 @@ namespace Arcade
         void setPosition(float x, float y);
     };
 
+    class SDLSoundObj
+    {
+    public:
+        Mix_Music *m_sound;
+        SDLSoundObj(const std::string &path)
+        {
+            m_sound = Mix_LoadMUS(path.c_str());
+            if (!m_sound)
+                throw Arcade::MissingAsset("Error Mix_LoadMUS");
+        };
+        ~SDLSoundObj()
+        {
+            Mix_FreeMusic(m_sound);
+        };
+        void play()
+        {
+            Mix_PlayMusic(m_sound, 1);
+        };
+    };
+
     class SDL : public IDisplay
     {
     private:
@@ -28,6 +49,7 @@ namespace Arcade
         SDL_Renderer *m_renderer;
         TTF_Font *m_font;
         std::map<std::string, std::shared_ptr<SDLTextureObj>> m_texture_map;
+        std::map<std::string, std::shared_ptr<SDLSoundObj>> m_sound_map;
     public:
         SDL();
         ~SDL();

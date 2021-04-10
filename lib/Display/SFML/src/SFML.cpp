@@ -109,9 +109,11 @@ void Arcade::SFML::drawTile(Arcade::Tile *tile)
 
 void Arcade::SFML::playSound(Arcade::Sound *sound)
 {
-    auto tmpbuffer = std::make_shared<sf::SoundBuffer>();
-    if (!tmpbuffer->loadFromFile(sound->getSound()))
-        throw Arcade::exception("SFML Failed to load a sound");
-    auto tmpsound = std::make_shared<sf::Sound>(*tmpbuffer);
-    tmpsound->play();
+    if (m_sound_map.find(sound->getSound()) == m_sound_map.end()) {
+        m_sound_map[sound->getSound()].first = std::make_shared<sf::SoundBuffer>();
+        if (!m_sound_map[sound->getSound()].first->loadFromFile(sound->getSound()))
+            throw Arcade::MissingAsset("SFML Failed to load a sound");
+        m_sound_map[sound->getSound()].second = std::make_shared<sf::Sound>(*m_sound_map[sound->getSound()].first);
+    }
+    m_sound_map[sound->getSound()].second->play();
 }

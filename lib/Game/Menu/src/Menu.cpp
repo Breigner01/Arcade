@@ -42,6 +42,8 @@ Arcade::Menu::Menu() : m_score(0), m_iterator(0)
 
     m_menu_enter = std::make_shared<Arcade::Text>("Select a game and press ENTER !", WHITE, 12, 30);
     m_menu_exit = std::make_shared<Arcade::Text>("Press ECHAP to exit Arcade", WHITE, 13, 31);
+
+    m_sou = std::make_shared<Arcade::Sound>("assets/Menu/move_menu.wav");
 }
 
 void Arcade::Menu::reset()
@@ -50,19 +52,21 @@ void Arcade::Menu::reset()
 
 std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Menu::loop(Arcade::Input ev)
 {
+    std::vector<std::shared_ptr<Arcade::IObject>> buf{};
     if (ev == LEFT or ev == UP) {
         m_score--;
         if (m_score < 0)
             m_score = static_cast<int>(m_text_list.size()) - 1;
         m_poster->setPath(m_menu_displayer_map[m_GameLibs[m_score]]);
+        buf.push_back(m_sou);
     }
     else if (ev == RIGHT or ev == DOWN) {
         m_score++;
         if (m_score >= static_cast<int>(m_text_list.size()))
             m_score = 0;
         m_poster->setPath(m_menu_displayer_map[m_GameLibs[m_score]]);
+        buf.push_back(m_sou);
     }
-    std::vector<std::shared_ptr<Arcade::IObject>> buf{};
     buf.push_back(m_text_list[m_score]);
     buf.push_back(m_arcade);
     buf.push_back(m_poster);
