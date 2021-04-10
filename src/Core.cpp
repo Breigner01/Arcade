@@ -1,6 +1,4 @@
 #include "Core.hpp"
-#include <unistd.h>
-#include <iostream>
 
 bool Arcade::Core::menu()
 {
@@ -24,7 +22,6 @@ bool Arcade::Core::menu()
                 m_display.get()->draw(tile);
             m_display.get()->refresh();
         }
-        usleep(2000 * 60); // 60 == framerate
     }
 }
 
@@ -59,7 +56,6 @@ Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av), m_game(), m_dis
                 m_display.get()->draw(tile);
             m_display.get()->refresh();
         }
-        usleep(2000 * 60); // 60 == framerate
     }
 }
 

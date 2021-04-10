@@ -4,6 +4,8 @@
 #include <random>
 #include "IGame.hpp"
 
+using namespace std::chrono_literals;
+
 namespace Arcade {
 
 class Snake : public IGame {
@@ -20,6 +22,12 @@ private:
     std::random_device m_rd{};
     std::mt19937 m_gen;
     std::uniform_int_distribution<> m_distrib{};
+
+    Input m_ev{Input::NIL};
+
+    static constexpr std::chrono::nanoseconds m_timestep{16ms};
+    std::chrono::time_point<std::chrono::high_resolution_clock> m_clock{};
+    int m_ticks{};
 
     std::vector<std::shared_ptr<Arcade::Tile>> m_buf_wall{};
     std::vector<std::shared_ptr<Arcade::Tile>> m_buf_snake{};
@@ -50,6 +58,14 @@ private:
      */
     void generateNewApple();
 
+    /**
+     * Generates a buffer containing all the assets to load
+     *
+     * @param ret The return value of the movements function
+     * @return A buffer containing all the assets to load
+     */
+    std::vector<std::shared_ptr<Arcade::IObject>> generateBuffer(int ret=0);
+
 public:
 
     Snake();
@@ -58,6 +74,7 @@ public:
     int getScore() override {return m_score;};
     void reset() override;
     std::vector<std::shared_ptr<IObject>> loop(Arcade::Input ev) override;
+
 };
 
 extern "C" Snake *entry_point();

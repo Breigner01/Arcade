@@ -114,43 +114,59 @@ void Arcade::Snake::generateNewApple()
 
 std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input ev)
 {
-    switch (ev) {
-        case Input::UP:
-            if (m_dirY == 1)
-                break;
-            m_dirX = 0;
-            m_dirY = -1;
-            m_rotation = 180;
-            break;
-        case Input::DOWN:
-            if (m_dirY == -1)
-                break;
-            m_dirX = 0;
-            m_dirY = 1;
-            m_rotation = 0;
-            break;
-        case Input::LEFT:
-            if (m_dirX == 1)
-                break;
-            m_dirX = -1;
-            m_dirY = 0;
-            m_rotation = 90;
-            break;
-        case Input::RIGHT:
-            if (m_dirX == -1)
-                break;
-            m_dirX = 1;
-            m_dirY = 0;
-            m_rotation = 270;
-            break;
-    }
-    int ret = movements();
-    std::cout << m_map << std::endl;
-    if (ret == -1)
-        std::cout << "An error occurred" << std::endl;
-    else if (ret == 1)
-        std::cout << "Game Over" << std::endl;
+    if (ev != Arcade::Input::NIL)
+        m_ev = ev;
+    if (clock::now() - m_clock < m_timestep)
+        return (generateBuffer());
+    m_ticks += 1;
 
+    if (m_ticks == 15) {
+        switch (m_ev) {
+            case Input::UP:
+                if (m_dirY == 1)
+                    break;
+                m_dirX = 0;
+                m_dirY = -1;
+                m_rotation = 180;
+                break;
+            case Input::DOWN:
+                if (m_dirY == -1)
+                    break;
+                m_dirX = 0;
+                m_dirY = 1;
+                m_rotation = 0;
+                break;
+            case Input::LEFT:
+                if (m_dirX == 1)
+                    break;
+                m_dirX = -1;
+                m_dirY = 0;
+                m_rotation = 90;
+                break;
+            case Input::RIGHT:
+                if (m_dirX == -1)
+                    break;
+                m_dirX = 1;
+                m_dirY = 0;
+                m_rotation = 270;
+                break;
+            default:
+                break;
+        }
+        m_ticks = 0;
+        int ret = movements();
+        if (ret == -1)
+            std::cout << "An error occurred" << std::endl;
+        else if (ret == 1)
+            std::cout << "Game Over" << std::endl;
+        return (generateBuffer(ret));
+    }
+    m_clock = clock::now();
+    return (generateBuffer());
+}
+
+std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::generateBuffer(int ret)
+{
     std::vector<std::shared_ptr<Arcade::IObject>> buf{};
     buf.reserve(m_buf_snake.size() + m_buf_apple.size() + m_buf_wall.size());
     if (ret == 2)
@@ -161,5 +177,5 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input 
         buf.push_back(elem);
     for (auto &elem : m_buf_apple)
         buf.push_back(elem);
-    return buf;
+    return (buf);
 }

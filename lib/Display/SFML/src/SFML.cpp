@@ -23,7 +23,7 @@ Arcade::SFML::~SFML()
 
 Arcade::Input Arcade::SFML::event()
 {
-    sf::Event ev;
+    sf::Event ev{};
     Arcade::Input input = NIL;
 
     while (m_window.pollEvent(ev)) {

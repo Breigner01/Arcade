@@ -12,3 +12,8 @@
 arcade
 *.so
 cmake-build-*/
+
+# Documentation Generation Files
+
+doc/latex/
+doc/html/
