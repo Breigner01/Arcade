@@ -6,6 +6,9 @@
 
 namespace Arcade
 {
+    /**
+     *  List of all possible graphical libraries
+     */
     constexpr std::string_view GRAPHICS_LIBRARIES[] = {
         "./lib/arcade_ncurses.so",
         "./lib/arcade_sdl2.so",
@@ -22,6 +25,9 @@ namespace Arcade
         "./lib/arcade_qt5.so",
     };
 
+    /**
+     *  List of all possible games libraries
+     */
     constexpr std::string_view GAMES_LIBRARIES[] = {
         "./lib/arcade_nibbler.so",
         "./lib/arcade_pacman.so",

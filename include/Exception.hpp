@@ -5,6 +5,9 @@
 
 namespace Arcade {
 
+/**
+ *  Exception class for Arcade
+ */
 class exception : std::exception {
 
 protected:
@@ -17,11 +20,26 @@ public:
     [[nodiscard]] const char *what() const noexcept override {return m_error.c_str();}
 };
 
+/**
+ *  Exception thrown when a missing asset is detected at runtime. 
+ *  Inherits from Arcade::exception
+ */
 class MissingAsset : exception {
 
 public:
 
     explicit MissingAsset(std::string error) : exception(std::move(error)) {}
+};
+
+/**
+ *  Exception thrown when an error occured when loading a dynamic library at runtime. 
+ *  Inherits from Arcade::exception
+ */
+class DyLibException : exception {
+
+public:
+
+    explicit DyLibException(std::string error) : exception(std::move(error)) {}
 };
 
 }

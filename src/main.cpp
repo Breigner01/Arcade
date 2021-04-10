@@ -15,7 +15,3 @@ int main(int ac, char **av)
     }
     return EXIT_SUCCESS;
 }
-
-// fix memory leaks sdl -> shared ptr
-
-// text accurate color SDL / SFML

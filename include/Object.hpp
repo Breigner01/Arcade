@@ -6,25 +6,45 @@
 
 namespace Arcade
 {
+    /**
+     *  @return the actual size of each tiles
+     */
     inline const unsigned int &getTileSize()
     {
         static unsigned int tileSize = 50;
         return tileSize;
     };
 
+    /**
+     *  @param size set the size of each tile by this value
+     */
     inline void setTileSize(unsigned int size)
     {
         const_cast<unsigned int &>(getTileSize()) = size;
     };
 
+    /**
+     *  Colors handled by Arcade Core
+     */
     enum Color {WHITE, BLACK, RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN, ORANGE, PINK};
 
+    /**
+     *  Pure virtual class that can be polymorfed into :
+     *  
+     *  Tile
+     *  DynamicTile
+     *  Sound
+     *  Text
+     */
     class IObject
     {
     public:
         virtual ~IObject() = default;
     };
 
+    /**
+     *  Class that contains a tile of size <getTileSize()>
+     */
     class Tile : public IObject
     {
     private:
@@ -54,6 +74,10 @@ namespace Arcade
         void setRotation(unsigned int angle) {m_rotation = angle;};
     };
 
+    /**
+     *  Class that contains multiple tiles of size <getTileSize()>
+     *  use animate() member to animate the tile
+     */
     class DynamicTile : public IObject
     {
     private:
@@ -98,6 +122,9 @@ namespace Arcade
         };
     };
 
+    /**
+     *  Class that contains a relative path to a sound file
+     */
     class Sound : public IObject
     {
     private:
@@ -109,6 +136,9 @@ namespace Arcade
         void setSound(std::string path) {m_path = std::move(path);};
     };
 
+    /**
+     *  Class that contains text to be displayed
+     */
     class Text : public IObject
     {
     private:

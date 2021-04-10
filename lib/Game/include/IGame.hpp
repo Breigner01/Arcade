@@ -16,8 +16,18 @@ public:
 
     virtual ~IGame() = default;
 
-    virtual std::vector<std::shared_ptr<Arcade::IObject>> loop(Arcade::Input ev) = 0;
+    /**
+     *  @param event Arcade::Input event received to be processed by the game
+	 * 	@return a vector of Arcade::IObject to be draw into the current graphical library
+	 */
+    virtual std::vector<std::shared_ptr<Arcade::IObject>> loop(Arcade::Input event) = 0;
+    /**
+	 * 	@return the actual score of the current game library
+	 */
     virtual int getScore() = 0;
+    /**
+     *  Reset the current game library
+	 */
     virtual void reset() = 0;
 
 };
