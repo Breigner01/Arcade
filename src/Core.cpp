@@ -8,7 +8,9 @@ bool Arcade::Core::menu()
         if (menu_input == ESCAPE)
             return false;
         else if (menu_input == ENTER) {
-            m_game.loadLib(m_GameLibs[m_game.get()->getScore()]);
+            auto index = m_game.get()->getScore();
+            m_game.loadLib(m_GameLibs[index]);
+            m_score.load(m_GameLibs[index]);
             return true;
         }
         else if (menu_input == P)
@@ -33,9 +35,13 @@ Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av), m_game(), m_dis
 
     while (true) {
         auto input = m_display.get()->event();
-        if (input == ESCAPE)
+        if (input == ESCAPE) {
+            m_score.setNewScore(std::to_string(m_game.get()->getScore()) + " " + m_name);
+            m_score.writeNewScore();
             return;
+        }
         else if (input == MENU) {
+            m_score.setNewScore(std::to_string(m_game.get()->getScore()) + " " + m_name);
             if (menu() == false)
                 return;
         }
@@ -81,6 +87,7 @@ void Arcade::Core::prevGame()
     if (m_GameLibsIterator < 0)
         m_GameLibsIterator = static_cast<int>(m_GameLibs.size()) - 1;
     m_game.loadLib(m_GameLibs[m_GameLibsIterator]);
+    m_score.load(m_GameLibs[m_GameLibsIterator]);
 }
 
 void Arcade::Core::nextGame()
@@ -89,4 +96,5 @@ void Arcade::Core::nextGame()
     if (m_GameLibsIterator >= static_cast<int>(m_GameLibs.size()))
         m_GameLibsIterator = 0;
     m_game.loadLib(m_GameLibs[m_GameLibsIterator]);
+    m_score.load(m_GameLibs[m_GameLibsIterator]);
 }

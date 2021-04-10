@@ -30,8 +30,17 @@ std::vector<std::string> HighScore::string_to_vector(std::string str, char separ
 
 HighScore::HighScore(const std::string &file)
 {
-    m_file = file;
-    std::ifstream myfile(file);
+    this->load(file);
+}
+
+void HighScore::load(const std::string &file)
+{
+    m_file = "./scoreboard/";
+    m_file += file.substr(file.find("arcade"));
+    m_file.pop_back();
+    m_file.pop_back();
+    m_file += "txt";
+    std::ifstream myfile(m_file);
     std::string line;
 
     while (std::getline(myfile, line))
@@ -43,13 +52,9 @@ HighScore::HighScore(const std::string &file)
               });
 }
 
-HighScore::~HighScore()
-{
-}
-
 void HighScore::writeNewScore()
 {
-    std::fstream fs(m_file, std::fstream::out | std::fstream::trunc);
+    std::fstream fs(m_file, std::ios::in | std::ios::out | std::fstream::trunc);
 
     if (m_content.size() > 10)
         for (size_t i = 0; i < (m_content.size() - 10); i += 1)

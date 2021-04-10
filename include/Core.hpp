@@ -4,6 +4,7 @@
 #include "IGame.hpp"
 #include "IDisplay.hpp"
 #include "DyLib.hpp"
+#include "HighScore.hpp"
 
 namespace Arcade
 {
@@ -12,6 +13,7 @@ namespace Arcade
     private:
         DyLib<Arcade::IGame> m_game;
         DyLib<Arcade::IDisplay> m_display;
+        HighScore m_score {};
     public:
         /**
          *  The Core class takes the program arguments as parameters. 

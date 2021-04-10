@@ -17,7 +17,8 @@ set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
 add_executable(arcade
         src/main.cpp
         src/Core.cpp
-        src/Parsing.cpp)
+        src/Parsing.cpp
+        lib/Game/src/HighScore.cpp)
 
 target_link_libraries(arcade PUBLIC dl)
 
