@@ -52,8 +52,44 @@ Arcade::Snake::Snake() : m_dirX(-1), m_dirY(0), m_rotation(90), m_gen(m_rd())
 
 void Arcade::Snake::reset()
 {
-    m_x = 2;
-    m_y = 2;
+    m_buf_snake.clear();
+    m_buf_apple.clear();
+    m_buf_wall.clear();
+
+    std::ifstream stream("assets/Snake/map.txt");
+    std::ostringstream content;
+
+    if (stream.fail())
+        throw Arcade::MissingAsset("Missing map for Nibbler");
+    content << stream.rdbuf();
+    m_map.assign(content.str());
+
+    int x = 0;
+    int y = 0;
+    for (auto &c : m_map) {
+        if (c == '\n') {
+            y += 1;
+            x = 0;
+            continue;
+        } else if (c == m_snake) {
+            m_buf_snake.push_back(std::make_shared<Tile>("assets/Snake/snake.png", m_snake, BLUE, x, y));
+        } else if (c == m_wall) {
+            m_buf_wall.push_back(std::make_shared<Tile>("assets/Snake/wall.png", m_wall, GREEN, x, y));
+        } else if (c == m_snakeHead) {
+            m_buf_snake.push_back(std::make_shared<Tile>("assets/Snake/snake_head.png", m_snakeHead, MAGENTA, x, y));
+            m_x = x;
+            m_y = y;
+        }
+        x += 1;
+    }
+    generateNewApple();
+    m_clock = clock::now();
+    m_ev = Arcade::Input::NIL;
+    m_score = 0;
+    m_dirX = -1;
+    m_dirY = 0;
+    m_rotation = 90;
+    m_gameOver = false;
 }
 
 int Arcade::Snake::movements()
@@ -118,6 +154,8 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input 
         m_ev = ev;
     if (clock::now() - m_clock < m_timestep)
         return (generateBuffer());
+    if (m_gameOver)
+        return(gameOver());
     m_ticks += 1;
 
     if (m_ticks == 15) {
@@ -157,12 +195,22 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input 
         int ret = movements();
         if (ret == -1)
             std::cout << "An error occurred" << std::endl;
-        else if (ret == 1)
-            std::cout << "Game Over" << std::endl;
+        else if (ret == 1) {
+            m_gameOver = true;
+            return (gameOver());
+        }
         return (generateBuffer(ret));
     }
     m_clock = clock::now();
     return (generateBuffer());
+}
+
+std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::gameOver()
+{
+    auto buf = generateBuffer();
+    auto gameOverText = std::make_shared<Arcade::Text>("Game Over!", Arcade::Color::RED, 7.9, 9.1);
+    buf.push_back(gameOverText);
+    return (buf);
 }
 
 std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::generateBuffer(int ret)

@@ -25,6 +25,8 @@ private:
 
     Input m_ev{Input::NIL};
 
+    bool m_gameOver{};
+
     static constexpr std::chrono::nanoseconds m_timestep{16ms};
     std::chrono::time_point<std::chrono::high_resolution_clock> m_clock{};
     int m_ticks{};
@@ -65,6 +67,13 @@ private:
      * @return A buffer containing all the assets to load
      */
     std::vector<std::shared_ptr<Arcade::IObject>> generateBuffer(int ret=0);
+
+    /**
+     * Function executed to display a game over screen
+     *
+     * @return A buffer containing the assets to display
+     */
+    std::vector<std::shared_ptr<Arcade::IObject>> gameOver();
 
 public:
 
