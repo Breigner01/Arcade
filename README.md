@@ -1,4 +1,5 @@
 # Arcade
+<<<<<<< HEAD
 Arcade is a gaming platform: a program that lets the user choose a game to play and keeps a register of player scores.
 
 ## Librairies
@@ -46,3 +47,5 @@ In `./doc/`
 - [Benjamin Reigner](https://github.com/Breigner01)
 - [Martin Olivier](https://github.com/tocola)
 - [Coline Seguret](https://github.com/Cleopha)
+=======
+>>>>>>> origin/master
