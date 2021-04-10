@@ -71,10 +71,10 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Menu::loop(Arcade::Input e
         m_high_scores.load(m_GameLibs[m_score]);
         buf.push_back(m_sou);
     }
-    buf.push_back(std::make_shared<Arcade::Text>("HIGHSCORE :", WHITE, 0, 0));
+    buf.push_back(std::make_shared<Arcade::Text>("HIGHSCORE :", WHITE, 45, 10));
     std::vector<std::string> tmp = m_high_scores.getContent();
-    for (size_t i = 0; i < 3 and i < tmp.size(); i++)
-        buf.push_back(std::make_shared<Arcade::Text>(tmp[i], WHITE, 0, i + 1));
+    for (size_t i = 0; i < 5 and i < tmp.size(); i++)
+        buf.push_back(std::make_shared<Arcade::Text>(tmp[i], WHITE, 45, (i + 2) + 10));
     buf.push_back(m_text_list[m_score]);
     buf.push_back(m_arcade);
     buf.push_back(m_poster);
