@@ -44,6 +44,7 @@ Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av), m_game(), m_dis
         }
         else if (input == MENU) {
             m_score.setNewScore(std::to_string(m_game.get()->getScore()) + " " + m_name);
+            m_score.writeNewScore();
             if (menu() == false)
                 return;
         }

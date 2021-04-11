@@ -48,8 +48,8 @@ Arcade::Snake::Snake() : m_dirX(-1), m_dirY(0), m_rotation(90), m_gen(m_rd())
         }
         x += 1;
     }
-    m_score_MAIN = std::make_shared<Text>("SCORE", WHITE, 25, 10);
-    m_score_DATA = std::make_shared<Text>(std::to_string(m_score), BLUE, 25, 11);
+    m_score_MAIN = std::make_shared<Text>("SCORE", WHITE, 23, 8);
+    m_score_DATA = std::make_shared<Text>(std::to_string(m_score), BLUE, 23, 9);
     generateNewApple();
 }
 
@@ -217,9 +217,9 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::gameOver()
         buf.push_back(m_death_sound);
         m_first_death_loop = false;
     }
-    buf.push_back(std::make_shared<Arcade::Text>("Game Over!", Arcade::Color::RED, 25, 13));
-    buf.push_back(std::make_shared<Arcade::Text>("Press R to restart the game", Arcade::Color::ORANGE, 25, 15));
-    buf.push_back(std::make_shared<Arcade::Text>("Press M to go back to the menu", Arcade::Color::CYAN, 25, 17));
+    buf.push_back(std::make_shared<Arcade::Text>("Game Over!", Arcade::Color::RED, 23, 11));
+    buf.push_back(std::make_shared<Arcade::Text>("Press R to restart the game", Arcade::Color::ORANGE, 23, 13));
+    buf.push_back(std::make_shared<Arcade::Text>("Press M to go back to the menu", Arcade::Color::CYAN, 23, 14));
     return (buf);
 }
 
