@@ -333,7 +333,10 @@ int Arcade::Pacman::phantomMovementsRandom()
         float x = 0;
         float y = 0;
 
+        int nb_loop = 0;
         do {
+            if (nb_loop == 50)
+                break;
             int rd_nb = m_distrib(m_gen);
             x = pos.first;
             y = pos.second;
@@ -371,6 +374,7 @@ int Arcade::Pacman::phantomMovementsRandom()
                 m_oldChar[i] = ' ';
                 m_killed[i] = true;
             }
+            nb_loop += 1;
         } while (m_map[index] != ' ' && m_map[index] != m_dot && m_map[index] != m_pacGum && m_map[index] != m_pacman1);
 
         m_map[computeIndex(pos.first, pos.second, m_lineLen)] = m_oldChar[i];
