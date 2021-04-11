@@ -238,16 +238,16 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::loop(Arcade::Input
     m_ticks += 1;
     m_phantomTicks += 1;
 
-    if (m_phantomTicks == 600) {
+    if (m_phantomTicks == 300) {
         m_freePhantoms = true;
         m_phantomTicks = 0;
-    } else if (m_freePhantoms && m_phantomTicks == 20 && !m_readyPhantoms) {
+    } else if (m_freePhantoms && m_phantomTicks == 10 && !m_readyPhantoms) {
         for (int i = 0; i < 4; i++) {
             getPhantomOut(i);
         }
         m_readyPhantoms = true;
         m_phantomTicks = 0;
-    } else if (m_readyPhantoms && m_ticks == 20)
+    } else if (m_readyPhantoms && m_ticks == 10)
         if (phantomMovementsRandom() == 1) {
             m_gameOver = true;
             return (gameOver());
@@ -273,7 +273,7 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::loop(Arcade::Input
             }
         }
     }
-    if (m_ticks == 20) {
+    if (m_ticks == 10) {
         m_dirX = 0;
         m_dirY = 0;
         switch (m_ev) {
@@ -296,8 +296,8 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::loop(Arcade::Input
         m_ticks = 0;
     }
     auto pos = m_pacman_buf->getPosition();
-    m_pacman_buf->setPosition(pos.first + static_cast<float>(m_dirX) / 20.,
-                              pos.second + static_cast<float>(m_dirY) / 20.);
+    m_pacman_buf->setPosition(pos.first + static_cast<float>(m_dirX) / 10.,
+                              pos.second + static_cast<float>(m_dirY) / 10.);
     /*int i = 0;
     for (auto &phantom : m_phantoms_buf) {
         std::cout << m_phantomMovements[i].first << '\n' << m_phantomMovements[i].second << std::endl;
@@ -355,10 +355,6 @@ int Arcade::Pacman::phantomMovementsRandom()
                 default:
                     break;
             }
-            if (m_vulnerable[i])
-                m_phantomMovements[i] = std::make_pair((x - pos.first) / 40., (y - pos.second) / 40.);
-            else
-                m_phantomMovements[i] = std::make_pair((x - pos.first) / 20., (y - pos.second) / 20.);
             index = computeIndex(x, y, m_lineLen);
             if (m_map[index] == m_pacman1 && !m_vulnerable[i])
                 ret = 1;

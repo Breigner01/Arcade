@@ -163,7 +163,7 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input 
         return(gameOver());
     m_ticks += 1;
 
-    if (m_ticks == 15) {
+    if (m_ticks == 10) {
         switch (m_ev) {
             case Input::UP:
                 if (m_dirY == 1)

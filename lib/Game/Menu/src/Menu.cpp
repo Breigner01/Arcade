@@ -1,4 +1,3 @@
-#include <iostream>
 #include <filesystem>
 #include <map>
 #include <vector>
@@ -54,25 +53,32 @@ void Arcade::Menu::reset()
 
 std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Menu::loop(Arcade::Input ev)
 {
+    if (ev != Input::NIL)
+        m_ev = ev;
+    if (clock::now() - m_clock < m_timestep)
+        return (std::vector<std::shared_ptr<Arcade::IObject>>{});
     std::vector<std::shared_ptr<Arcade::IObject>> buf{};
-    if (ev == LEFT or ev == UP) {
+    if (m_ev == LEFT or m_ev == UP) {
         m_score--;
         if (m_score < 0)
             m_score = static_cast<int>(m_text_list.size()) - 1;
         m_poster->setPath(m_menu_displayer_map[m_GameLibs[m_score]]);
         m_high_scores.load(m_GameLibs[m_score]);
         buf.push_back(m_sou);
+        m_ev = Input::NIL;
     }
-    else if (ev == RIGHT or ev == DOWN) {
+    else if (m_ev == RIGHT or m_ev == DOWN) {
         m_score++;
         if (m_score >= static_cast<int>(m_text_list.size()))
             m_score = 0;
         m_poster->setPath(m_menu_displayer_map[m_GameLibs[m_score]]);
         m_high_scores.load(m_GameLibs[m_score]);
         buf.push_back(m_sou);
+        m_ev = Input::NIL;
     }
     buf.push_back(std::make_shared<Arcade::Text>("HIGHSCORE :", WHITE, 45, 10));
     std::vector<std::string> tmp = m_high_scores.getContent();
+    m_clock = clock::now();
     for (size_t i = 0; i < 5 and i < tmp.size(); i++)
         buf.push_back(std::make_shared<Arcade::Text>(tmp[i], WHITE, 45, (i + 2) + 10));
     buf.push_back(m_text_list[m_score]);
