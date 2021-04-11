@@ -160,7 +160,6 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input 
         m_ev = ev;
     if (clock::now() - m_clock < m_timestep)
         return (std::vector<std::shared_ptr<Arcade::IObject>>{});
-    m_gameOverTicks += 1;
     if (m_gameOver && m_gameOverTicks == 6) {
         m_gameOverTicks = 0;
         return (gameOver());
