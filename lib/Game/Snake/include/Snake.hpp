@@ -36,6 +36,8 @@ private:
     std::vector<std::shared_ptr<Arcade::Tile>> m_buf_apple{};
 
     std::shared_ptr<Arcade::Sound> m_eat_sound{};
+    std::shared_ptr<Arcade::Sound> m_death_sound{};
+    bool m_first_death_loop{true};
 
     std::shared_ptr<Arcade::Text> m_score_MAIN{};
     std::shared_ptr<Arcade::Text> m_score_DATA{};

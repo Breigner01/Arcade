@@ -14,6 +14,7 @@ Arcade::Snake::Snake() : m_dirX(-1), m_dirY(0), m_rotation(90), m_gen(m_rd())
 {
     Arcade::setTileSize(50);
     m_eat_sound = std::make_shared<Arcade::Sound>("assets/Snake/eat.wav");
+    m_death_sound = std::make_shared<Arcade::Sound>("assets/Snake/death.wav");
     std::ifstream stream("assets/Snake/map.txt");
     std::ostringstream content;
 
@@ -57,6 +58,8 @@ void Arcade::Snake::reset()
     m_buf_snake.clear();
     m_buf_apple.clear();
     m_buf_wall.clear();
+
+    m_first_death_loop = true;
 
     std::ifstream stream("assets/Snake/map.txt");
     std::ostringstream content;
@@ -210,8 +213,13 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input 
 std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::gameOver()
 {
     auto buf = generateBuffer();
-    auto gameOverText = std::make_shared<Arcade::Text>("Game Over!", Arcade::Color::RED, 7.9, 9.1);
-    buf.push_back(gameOverText);
+    if (m_first_death_loop) {
+        buf.push_back(m_death_sound);
+        m_first_death_loop = false;
+    }
+    buf.push_back(std::make_shared<Arcade::Text>("Game Over!", Arcade::Color::RED, 25, 13));
+    buf.push_back(std::make_shared<Arcade::Text>("Press R to restart the game", Arcade::Color::ORANGE, 25, 15));
+    buf.push_back(std::make_shared<Arcade::Text>("Press M to go back to the menu", Arcade::Color::CYAN, 25, 17));
     return (buf);
 }
 
