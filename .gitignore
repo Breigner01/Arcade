@@ -13,6 +13,7 @@ arcade
 *.so
 *.txt
 cmake-build-*/
+build.sh
 
 # Documentation Generation Files
 
