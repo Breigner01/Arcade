@@ -37,6 +37,9 @@ private:
 
     std::shared_ptr<Arcade::Sound> m_eat_sound{};
 
+    std::shared_ptr<Arcade::Text> m_score_MAIN{};
+    std::shared_ptr<Arcade::Text> m_score_DATA{};
+
     std::string m_map{};
     unsigned int m_nbLines{};
     unsigned int m_lineLen{};

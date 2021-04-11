@@ -47,6 +47,8 @@ Arcade::Snake::Snake() : m_dirX(-1), m_dirY(0), m_rotation(90), m_gen(m_rd())
         }
         x += 1;
     }
+    m_score_MAIN = std::make_shared<Text>("SCORE", WHITE, 25, 10);
+    m_score_DATA = std::make_shared<Text>(std::to_string(m_score), BLUE, 25, 11);
     generateNewApple();
 }
 
@@ -225,5 +227,8 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::generateBuffer(int 
         buf.push_back(elem);
     for (auto &elem : m_buf_apple)
         buf.push_back(elem);
+    buf.push_back(m_score_MAIN);
+    m_score_DATA->setText(std::to_string(m_score));
+    buf.push_back(m_score_DATA);
     return (buf);
 }
