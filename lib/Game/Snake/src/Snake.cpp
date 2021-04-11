@@ -153,7 +153,7 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input 
     if (ev != Arcade::Input::NIL)
         m_ev = ev;
     if (clock::now() - m_clock < m_timestep)
-        return (generateBuffer());
+        return (std::vector<std::shared_ptr<Arcade::IObject>>{});
     if (m_gameOver)
         return(gameOver());
     m_ticks += 1;

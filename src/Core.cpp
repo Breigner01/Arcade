@@ -19,10 +19,12 @@ bool Arcade::Core::menu()
             nextDisplay();
         else {
             auto buffer = m_game.get()->loop(menu_input);
-            m_display.get()->clear();
-            for (auto &tile : buffer)
-                m_display.get()->draw(tile);
-            m_display.get()->refresh();
+            if (!buffer.empty()) {
+                m_display.get()->clear();
+                for (auto &tile : buffer)
+                    m_display.get()->draw(tile);
+                m_display.get()->refresh();
+            }
         }
     }
 }
@@ -57,10 +59,12 @@ Arcade::Core::Core(int ac, char **av) : Arcade::Parsing(ac, av), m_game(), m_dis
             m_game.get()->reset();
         else {
             auto buffer = m_game.get()->loop(input);
-            m_display.get()->clear();
-            for (auto &tile : buffer)
-                m_display.get()->draw(tile);
-            m_display.get()->refresh();
+            if (!buffer.empty()) {
+                m_display.get()->clear();
+                for (auto &tile : buffer)
+                    m_display.get()->draw(tile);
+                m_display.get()->refresh();
+            }
         }
     }
 }
