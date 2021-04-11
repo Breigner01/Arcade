@@ -221,7 +221,7 @@ void Arcade::Pacman::getPhantomOut(int idx)
     auto nextIndex = computeIndex(pos.first + m_outPos[idx][0], pos.second + m_outPos[idx][1], m_lineLen);
     m_map[computeIndex(pos.first, pos.second, m_lineLen)] = m_oldChar[idx];
     m_oldChar[idx] = m_map[nextIndex];
-    m_map[nextIndex] = 'A';
+    m_map[nextIndex] = m_phantoms_buf[idx]->getSymbol();
     m_phantoms_buf[idx]->setPosition(pos.first + m_outPos[idx][0], pos.second + m_outPos[idx][1]);
 }
 
