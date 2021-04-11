@@ -1,8 +1,10 @@
 #pragma once
 
 #include <memory>
-#include <string_view>
+#include <random>
 #include "IGame.hpp"
+
+using namespace std::chrono_literals;
 
 namespace Arcade {
 
@@ -11,32 +13,63 @@ class Pacman : public IGame {
 private:
 
     int m_score{};
-    unsigned int m_x{};
-    unsigned int m_y{};
-    unsigned int m_timer{};
+    float m_x{};
+    float m_y{};
+    int m_dirX{};
+    int m_dirY{};
 
-    std::vector<std::shared_ptr<Arcade::Tile>> m_pacman_buf{};
+    unsigned int m_vulnerableTicks{};
+
+    Input m_ev{Input::NIL};
+
+    std::random_device m_rd{};
+    std::mt19937 m_gen;
+    std::uniform_int_distribution<> m_distrib{0, 3};
+
+    static constexpr std::chrono::nanoseconds m_timestep{16ms};
+    std::chrono::time_point<std::chrono::high_resolution_clock> m_clock{};
+    int m_ticks{};
+
+    int m_phantomTicks{};
+    bool m_freePhantoms{};
+    bool m_readyPhantoms{};
+    std::array<bool, 4> m_killed{};
+    std::array<bool, 4> m_move{};
+
+    std::shared_ptr<Arcade::Tile> m_pacman_buf{};
     std::vector<std::shared_ptr<Arcade::Tile>> m_wall_buf{};
     std::vector<std::shared_ptr<Arcade::Tile>> m_phantoms_buf{};
     std::vector<std::shared_ptr<Arcade::Tile>> m_dots_buf{};
     std::vector<std::shared_ptr<Arcade::Tile>> m_pacGum_buf{};
     std::vector<std::shared_ptr<Arcade::Tile>> m_doors_buf{};
 
-    std::vector<bool> m_vulnerable{};
-    std::vector<std::pair<unsigned int, unsigned int>> m_phantomInitCoords;
+    std::shared_ptr<Arcade::Text> m_score_MAIN{};
+    std::shared_ptr<Arcade::Text> m_score_DATA{};
+
+    std::shared_ptr<Arcade::Sound> m_move_sound{};
+
+    std::array<bool, 4> m_vulnerable{};
+    std::vector<std::pair<float, float>> m_phantomInitCoords{};
 
     std::string m_map{};
     unsigned int m_nbLines{};
     unsigned int m_lineLen{};
 
-    const char *m_phantomsAssets[4] = {"assets/Pacman/blue_enemy.png",
-                                       "assets/Pacman/orange_enemy.png",
-                                       "assets/Pacman/pink_enemy.png",
-                                       "assets/Pacman/red_enemy.png"};
+    bool m_gameOver{};
+    std::array<std::pair<float, float>, 4> m_phantomMovements{};
+
+    const int m_outPos[4][2] = {{1, -2}, {0, -3}, {-1, -3}, {0, -4}};
+    char m_oldChar[4] = {' ', ' ', ' ', ' '};
+    int m_wayOutIdx{};
+
+    const char m_phantomsAssets[4][31] = {"assets/Pacman/blue_enemy.png",
+                                          "assets/Pacman/orange_enemy.png",
+                                          "assets/Pacman/pink_enemy.png",
+                                          "assets/Pacman/red_enemy.png"};
     static constexpr Color m_phantomsColors[] = {CYAN, ORANGE, PINK, RED};
 
-    const char *m_pacman1Asset = "assets/Pacman/pacman1.png";
-    const char *m_pacman2Asset = "assets/Pacman/pacman2.png";
+    static constexpr auto m_pacman1Asset = "assets/Pacman/pacman1.png";
+    static constexpr auto m_pacman2Asset = "assets/Pacman/pacman2.png";
 
     static constexpr char m_pacman1 = 'C';
     static constexpr char m_pacman2 = 'c';
@@ -58,6 +91,34 @@ private:
      *          1 if there is an enemy
      */
     int movements(int dirX, int dirY, int rotation);
+
+    /**
+     * Movements for orange Phantom (Clyde)
+     * His movements are random
+     */
+    int phantomMovementsRandom();
+
+    /**
+     * Generates a buffer to return to the core that is going to be passed to the graphical library in order for it
+     * to load the textures
+     *
+     * @return A buffer containing all the assets to load
+     */
+    std::vector<std::shared_ptr<Arcade::IObject>> generateBuffer();
+
+    /**
+     * Teleports the phantom to its position outside of the box
+     *
+     * @param idx The index of the phantom to teleport
+     */
+    void getPhantomOut(int idx);
+
+    /**
+     * Function executed to display a game over screen
+     *
+     * @return A buffer containing the assets to display
+     */
+    std::vector<std::shared_ptr<Arcade::IObject>> gameOver();
 
 public:
 
