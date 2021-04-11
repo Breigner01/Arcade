@@ -152,6 +152,7 @@ int Arcade::Pacman::movements(int dirX, int dirY, int rotation)
     m_pacman1Asset);
     m_x = x;
     m_y = y;
+    m_pacmanMoved = true;
     return (0);
 }
 
@@ -181,13 +182,13 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::loop(Arcade::Input
     if (m_phantomTicks == 600) {
         m_freePhantoms = true;
         m_phantomTicks = 0;
-    } else if (m_freePhantoms && m_phantomTicks == 10 && !m_readyPhantoms) {
+    } else if (m_freePhantoms && m_phantomTicks == 20 && !m_readyPhantoms) {
         for (int i = 0; i < 4; i++) {
             getPhantomOut(i);
         }
         m_readyPhantoms = true;
         m_phantomTicks = 0;
-    } else if (m_readyPhantoms && m_ticks == 10)
+    } else if (m_readyPhantoms && m_ticks == 20)
         if (phantomMovementsRandom() == 1) {
             m_gameOver = true;
             return (gameOver());
@@ -213,7 +214,7 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::loop(Arcade::Input
             }
         }
     }
-    if (m_ticks == 10) {
+    if (m_ticks == 20) {
         m_dirX = 0;
         m_dirY = 0;
         switch (m_ev) {
@@ -236,8 +237,8 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::loop(Arcade::Input
         m_ticks = 0;
     }
     auto pos = m_pacman_buf->getPosition();
-    m_pacman_buf->setPosition(pos.first + static_cast<float>(m_dirX) / 10.,
-                              pos.second + static_cast<float>(m_dirY) / 10.);
+    m_pacman_buf->setPosition(pos.first + static_cast<float>(m_dirX) / 20.,
+                              pos.second + static_cast<float>(m_dirY) / 20.);
     /*int i = 0;
     for (auto &phantom : m_phantoms_buf) {
         std::cout << m_phantomMovements[i].first << '\n' << m_phantomMovements[i].second << std::endl;
@@ -294,9 +295,9 @@ int Arcade::Pacman::phantomMovementsRandom()
                     break;
             }
             if (m_vulnerable[i])
-                m_phantomMovements[i] = std::make_pair((x - pos.first) / 20., (y - pos.second) / 20.);
+                m_phantomMovements[i] = std::make_pair((x - pos.first) / 40., (y - pos.second) / 40.);
             else
-                m_phantomMovements[i] = std::make_pair((x - pos.first) / 10., (y - pos.second) / 10.);
+                m_phantomMovements[i] = std::make_pair((x - pos.first) / 20., (y - pos.second) / 20.);
             index = computeIndex(x, y, m_lineLen);
             if (m_map[index] == m_pacman1 && !m_vulnerable[i])
                 ret = 1;
@@ -343,6 +344,10 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::generateBuffer()
         first_loop = 1;
     }
 
+    if (m_pacmanMoved) {
+        buf.push_back(m_move_sound);
+        m_pacmanMoved = false;
+    }
     for (auto &elem : m_wall_buf)
         buf.push_back(elem);
     for (auto &elem : m_dots_buf)

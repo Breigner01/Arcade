@@ -30,6 +30,8 @@ private:
     std::chrono::time_point<std::chrono::high_resolution_clock> m_clock{};
     int m_ticks{};
 
+    bool m_pacmanMoved{};
+
     int m_phantomTicks{};
     bool m_freePhantoms{};
     bool m_readyPhantoms{};
