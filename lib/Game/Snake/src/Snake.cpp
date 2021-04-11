@@ -60,6 +60,7 @@ void Arcade::Snake::reset()
     m_buf_wall.clear();
 
     m_first_death_loop = true;
+    m_gameOverTicks = 0;
 
     std::ifstream stream("assets/Snake/map.txt");
     std::ostringstream content;
@@ -159,8 +160,12 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input 
         m_ev = ev;
     if (clock::now() - m_clock < m_timestep)
         return (std::vector<std::shared_ptr<Arcade::IObject>>{});
-    if (m_gameOver)
-        return(gameOver());
+    m_gameOverTicks += 1;
+    if (m_gameOver && m_gameOverTicks == 6) {
+        m_gameOverTicks = 0;
+        return (gameOver());
+    } else if (m_gameOver)
+        return (std::vector<std::shared_ptr<Arcade::IObject>>{});
     m_ticks += 1;
 
     if (m_ticks == 10) {

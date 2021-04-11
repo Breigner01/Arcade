@@ -60,6 +60,8 @@ private:
     unsigned int m_lineLen{};
 
     bool m_gameOver{};
+    int m_gameOverTicks{};
+
     std::array<std::pair<float, float>, 4> m_phantomMovements{};
 
     const int m_outPos[4][2] = {{1, -2}, {0, -3}, {-1, -3}, {0, -4}};

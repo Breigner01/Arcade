@@ -85,6 +85,7 @@ void Arcade::Pacman::reset()
     m_gameOver = false;
     m_phantomMovements.fill(std::make_pair(0., 0.));
     m_wayOutIdx = 0;
+    m_gameOverTicks = 0;
 
     std::ifstream stream("assets/Pacman/map.txt");
     std::ostringstream content;
@@ -233,8 +234,12 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::loop(Arcade::Input
         m_ev = ev;
     if (clock::now() - m_clock < m_timestep)
         return (std::vector<std::shared_ptr<Arcade::IObject>>{});
-    if (m_gameOver)
+    m_gameOverTicks += 1;
+    if (m_gameOver && m_gameOverTicks == 6) {
+        m_gameOverTicks = 0;
         return (gameOver());
+    } else if (m_gameOver)
+        return (std::vector<std::shared_ptr<Arcade::IObject>>{});
     m_ticks += 1;
     m_phantomTicks += 1;
 

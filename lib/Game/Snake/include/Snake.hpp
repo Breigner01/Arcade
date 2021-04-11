@@ -26,6 +26,7 @@ private:
     Input m_ev{Input::NIL};
 
     bool m_gameOver{};
+    int m_gameOverTicks{};
 
     static constexpr std::chrono::nanoseconds m_timestep{33ms};
     std::chrono::time_point<std::chrono::high_resolution_clock> m_clock{};
