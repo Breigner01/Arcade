@@ -54,7 +54,7 @@ Arcade::Pacman::Pacman() : m_gen(m_rd())
         x += 1;
         m_score_MAIN = std::make_shared<Text>("SCORE", WHITE, 30, 14);
         m_score_DATA = std::make_shared<Text>(std::to_string(m_score), BLUE, 30, 15);
-        m_move_sound = std::make_shared<Arcade::Sound>("assets/Pacman/beginning.wav");
+        m_move_sound = std::make_shared<Arcade::Sound>("assets/Pacman/chomp.wav");
     }
 }
 
@@ -62,6 +62,8 @@ void Arcade::Pacman::reset()
 {
     m_x = 2;
     m_y = 2;
+    m_death_sound_pop = false;
+    m_first_loop = true;
 }
 
 int Arcade::Pacman::movements(int dirX, int dirY, int rotation)
@@ -330,18 +332,22 @@ int Arcade::Pacman::phantomMovementsRandom()
 std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::gameOver()
 {
     auto buf = generateBuffer();
-    auto gameOverText = std::make_shared<Arcade::Text>("Game Over!", Arcade::Color::RED, 10, 10);
-    buf.push_back(gameOverText);
+    buf.push_back(std::make_shared<Arcade::Text>("Game Over!", Arcade::Color::RED, 30, 17));
+    buf.push_back(std::make_shared<Arcade::Text>("Press R to restart the game", Arcade::Color::ORANGE, 30, 19));
+    buf.push_back(std::make_shared<Arcade::Text>("Press M to go back to the menu", Arcade::Color::CYAN, 30, 21));
+    if (!m_death_sound_pop) {
+        buf.push_back(std::make_shared<Arcade::Sound>("assets/Pacman/death.wav"));
+        m_death_sound_pop = true;
+    }
     return (buf);
 }
 
 std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::generateBuffer()
 {
     std::vector<std::shared_ptr<Arcade::IObject>> buf{};
-    static int first_loop = 0;
-    if (first_loop == 0) {
+    if (m_first_loop == true) {
         buf.push_back(std::make_shared<Arcade::Sound>("assets/Pacman/beginning.wav"));
-        first_loop = 1;
+        m_first_loop = false;
     }
 
     if (m_pacmanMoved) {

@@ -49,6 +49,8 @@ private:
     std::shared_ptr<Arcade::Text> m_score_DATA{};
 
     std::shared_ptr<Arcade::Sound> m_move_sound{};
+    bool m_death_sound_pop = false;
+    bool m_first_loop = true;
 
     std::array<bool, 4> m_vulnerable{};
     std::vector<std::pair<float, float>> m_phantomInitCoords{};
