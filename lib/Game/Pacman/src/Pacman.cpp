@@ -52,18 +52,75 @@ Arcade::Pacman::Pacman() : m_gen(m_rd())
         else if (c == m_door)
             m_doors_buf.push_back(std::make_shared<Arcade::Tile>("assets/Pacman/door.png", m_door, ORANGE, x, y));
         x += 1;
-        m_score_MAIN = std::make_shared<Text>("SCORE", WHITE, 30, 14);
-        m_score_DATA = std::make_shared<Text>(std::to_string(m_score), BLUE, 30, 15);
-        m_move_sound = std::make_shared<Arcade::Sound>("assets/Pacman/chomp.wav");
     }
+    m_score_MAIN = std::make_shared<Text>("SCORE", WHITE, 30, 14);
+    m_score_DATA = std::make_shared<Text>(std::to_string(m_score), BLUE, 30, 15);
+    m_move_sound = std::make_shared<Arcade::Sound>("assets/Pacman/chomp.wav");
 }
 
 void Arcade::Pacman::reset()
 {
-    m_x = 2;
-    m_y = 2;
     m_death_sound_pop = false;
     m_first_loop = true;
+    m_score = 0;
+    m_dirX = 0;
+    m_dirY = 0;
+    m_vulnerableTicks = 0;
+    m_ev = Arcade::Input::NIL;
+    m_clock = clock::now();
+    m_ticks = 0;
+    m_pacmanMoved = false;
+    m_phantomTicks = 0;
+    m_freePhantoms = false;
+    m_readyPhantoms = false;
+    m_killed.fill(false);
+    m_move.fill(false);
+    m_wall_buf.clear();
+    m_phantoms_buf.clear();
+    m_dots_buf.clear();
+    m_pacGum_buf.clear();
+    m_doors_buf.clear();
+    m_vulnerable.fill(false);
+    m_phantomInitCoords.clear();
+    m_gameOver = false;
+    m_phantomMovements.fill(std::make_pair(0., 0.));
+    m_wayOutIdx = 0;
+
+    std::ifstream stream("assets/Pacman/map.txt");
+    std::ostringstream content;
+
+    if (stream.fail())
+        throw Arcade::MissingAsset("Missing map for Pacman");
+    content << stream.rdbuf();
+    m_map.assign(content.str());
+    std::erase_if(m_map, [](char c) { return (c == 'Z'); });
+
+    int x = 0;
+    int y = 0;
+    for (auto &c : m_map) {
+        if (c == '\n') {
+            y += 1;
+            x = 0;
+            continue;
+        } else if (c == m_pacman1) {
+            m_pacman_buf = std::make_shared<Arcade::Tile>(m_pacman1Asset, m_pacman1, YELLOW, x, y);
+            m_x = x;
+            m_y = y;
+        } else if (c == m_wall)
+            m_wall_buf.push_back(std::make_shared<Arcade::Tile>("assets/Pacman/wall.png", m_wall, BLUE, x, y));
+        else if (c == m_phantom) {
+            m_phantoms_buf.push_back(std::make_shared<Arcade::Tile>(m_phantomsAssets[m_phantoms_buf.size()],
+                                                                    m_phantom, m_phantomsColors[m_phantoms_buf.size()],
+                                                                    x, y));
+            m_phantomInitCoords.emplace_back(std::make_pair<unsigned int, unsigned int>(x, y));
+        } else if (c == m_dot)
+            m_dots_buf.push_back(std::make_shared<Arcade::Tile>("assets/Pacman/dot.png", m_dot, WHITE, x, y));
+        else if (c == m_pacGum)
+            m_pacGum_buf.push_back(std::make_shared<Arcade::Tile>("assets/Pacman/pac_gum.png", m_pacGum, WHITE, x, y));
+        else if (c == m_door)
+            m_doors_buf.push_back(std::make_shared<Arcade::Tile>("assets/Pacman/door.png", m_door, ORANGE, x, y));
+        x += 1;
+    }
 }
 
 int Arcade::Pacman::movements(int dirX, int dirY, int rotation)
@@ -345,7 +402,7 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::gameOver()
 std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::generateBuffer()
 {
     std::vector<std::shared_ptr<Arcade::IObject>> buf{};
-    if (m_first_loop == true) {
+    if (m_first_loop) {
         buf.push_back(std::make_shared<Arcade::Sound>("assets/Pacman/beginning.wav"));
         m_first_loop = false;
     }
