@@ -62,7 +62,7 @@ COMMAND IN GAME:
 
 ## Documentation
 
-In `./doc/`
+[![doc](https://img.shields.io/badge/Documentation-pdf-red.svg)](./doc/documentation.pdf)
 
 ## Contributors
 
