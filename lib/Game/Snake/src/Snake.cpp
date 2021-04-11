@@ -164,8 +164,10 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Snake::loop(Arcade::Input 
     if (m_gameOver && m_gameOverTicks == 6) {
         m_gameOverTicks = 0;
         return (gameOver());
-    } else if (m_gameOver)
+    } else if (m_gameOver) {
+        m_gameOverTicks += 1;
         return (std::vector<std::shared_ptr<Arcade::IObject>>{});
+    }
     m_ticks += 1;
 
     if (m_ticks == 10) {
