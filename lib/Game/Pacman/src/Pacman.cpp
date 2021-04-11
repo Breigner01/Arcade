@@ -306,7 +306,6 @@ std::vector<std::shared_ptr<Arcade::IObject>> Arcade::Pacman::loop(Arcade::Input
         phantom->setPosition(oldPos.first + m_phantomMovements[i].first, oldPos.second + m_phantomMovements[i].second);
         i += 1;
     }*/
-    std::cout << m_map << std::endl;
     if (ret == -1)
         std::cout << "An error occurred" << std::endl;
     else if (ret == 1) {
